@@ -1,0 +1,364 @@
+<!-- Build GuidedTreeOperators. It is also used by Hudson GuidedTreeOperators project. JUnit test is available for this build. -->
+<project basedir="." default="build_jar_all_GuidedTreeOperators" name="BUILD_GuidedTreeOperators">
+	<description>
+	    Build GuidedTreeOperators. 
+	    JUnit test is available for this build.
+	    $Id: build_GuidedTreeOperators.xml $
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="versionGuidedTreeOperators" value="0.0.1" />
+	<property name="srcGuidedTreeOperators" location="src" />
+	<property name="docGuidedTreeOperators" location="doc" />
+	<property name="buildGuidedTreeOperators" location="build" />
+	<property name="libGuidedTreeOperators" location="lib" />
+	<property name="release_dir" value="release" />
+	<property name="distGuidedTreeOperators" location="${buildGuidedTreeOperators}/dist" />
+	<property name="beast2path" location="../beast2"/>
+	<property name="libBeast2" location="${beast2path}/lib" />
+	<property name="srcBeast2" location="${beast2path}/src" />
+	<property name="beast2classpath" location="${beast2path}/build" />
+	<property name="Add_on_dir" value="${release_dir}/add-on" />
+
+    <import file="${beast2path}/build.xml" />
+
+	<property name="main_class_CladeAge" value="beast.app.ca.GuidedTreeOperatorsPanel" />
+	<property name="report" value="${buildGuidedTreeOperators}/junitreport"/>
+
+	<path id="classpath">
+        <pathelement path="${buildGuidedTreeOperators}"/>
+		<fileset dir="${libBeast2}" includes="junit-4.8.2.jar"/>
+		<fileset dir="${libBeast2}" includes="jam.jar"/>
+		<fileset dir="${libBeast2}" includes="commons-math3-3.1.1.jar"/>
+	<pathelement path="${beast2classpath}"/>
+		<fileset dir="${beast2path}/lib" includes="jam.jar"/>
+		<fileset dir="${beast2path}/lib" includes="beagle.jar"/>
+		<fileset dir="${beast2path}/lib" includes="fest.jar"/>
+		<fileset dir="${beast2path}/lib" includes="colt.jar"/>
+	<pathelement path="../FastRelaxedClockLogNormal/build"/>
+	<pathelement path="../BEASTLabs/build"/>
+	</path>
+
+
+
+
+	<!-- start -->
+	<target name="initGuidedTreeOperators">
+		<echo message="${ant.project.name}: ${ant.file}" />
+	</target>
+
+	<target name="cleanGuidedTreeOperators">
+    	<delete dir="${buildGuidedTreeOperators}" />
+	</target>
+
+	<!-- clean previous build, and then compile Java source code, and Juint test -->
+	<target name="build_all_GuidedTreeOperators" depends="cleanGuidedTreeOperators,compile-allGuidedTreeOperators,junitGuidedTreeOperators"
+        description="Clean and Build all run-time stuff">
+	</target>
+
+	<!-- clean previous build, compile Java source code, and Junit test, and make the beast.jar and beauti.jar -->
+	<target name="build_jar_all_GuidedTreeOperators" depends="cleanGuidedTreeOperators,compile-allGuidedTreeOperators,junitGuidedTreeOperators,dist_all_GuidedTreeOperators"
+        description="Clean and Build all run-time stuff">
+	</target>
+
+
+	<!-- No JUnit Test, clean previous build, compile Java source code, and make the GuidedTreeOperators.jar and beauti.jar -->
+	<target name="build_jar_all_GuidedTreeOperators_NoJUnitTest" depends="cleanGuidedTreeOperators,compile-allGuidedTreeOperators,dist_all_GuidedTreeOperators"
+        description="Clean and Build all run-time stuff">
+	</target>
+
+	<!-- compile Java source code -->
+	<target name="compile-allGuidedTreeOperators" depends="initGuidedTreeOperators,compile-all">
+
+
+	    <!-- Capture the path as a delimited property using the refid attribute -->
+	    <property name="myclasspath" refid="classpath"/>
+	    <!-- Emit the property to the ant console -->
+	    <echo message="Classpath = ${myclasspath}"/>
+
+		<mkdir dir="${buildGuidedTreeOperators}" />
+
+		<!-- Compile the java code from ${srcGuidedTreeOperators} into ${buildGuidedTreeOperators} /bin -->
+		<javac srcdir="${srcGuidedTreeOperators}" destdir="${buildGuidedTreeOperators}" classpathref="classpath" 
+		       fork="true"
+		       memoryinitialsize="256m"
+		       memorymaximumsize="256m"
+			   source="1.8"
+		       target="1.8">
+			<include name="**/**" />
+			<!-- compile JUnit test classes -->
+			<include name="test/beast/**" />
+		</javac>
+		<copy todir="${buildGuidedTreeOperators}">
+			<fileset dir="${srcGuidedTreeOperators}" includes="**/*.png" />
+		</copy>
+		<echo message="Successfully compiled." />
+	</target>
+
+	<!-- make the beast.jar and beauti.jar -->
+	<target name="dist_all_GuidedTreeOperators" depends="compile-allGuidedTreeOperators" description="create GuidedTreeOperators jar">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${distGuidedTreeOperators}" />
+
+		<!-- Put everything in ${buildGuidedTreeOperators} into the beast.jar file -->
+		<jar jarfile="${distGuidedTreeOperators}/GuidedTreeOperators.jar">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="${main_class_CladeAge}" />
+			</manifest>
+			<fileset dir="${buildGuidedTreeOperators}">
+				<include name="**/*.class" />
+				<include name="**/*.png" />
+			</fileset>
+			<fileset dir="${beast2classpath}">
+				<include name="**/*.class" />
+				<include name="**/*.properties" />
+				<include name="**/*.png" />
+			</fileset>
+			<zipgroupfileset dir="${libBeast2}" includes="jam.jar" />
+			<zipgroupfileset dir="${libBeast2}" includes="beagle.jar" />
+			<zipgroupfileset dir="${libBeast2}" includes="colt.jar" />
+			<zipgroupfileset dir="${libBeast2}" includes="commons-math3-3.1.1.jar" />
+			<zipgroupfileset dir="${libBeast2}" includes="antlr-runtime-4.7.jar" />
+		</jar>
+		<jar jarfile="${distGuidedTreeOperators}/GuidedTreeOperators.src.jar">
+			<fileset dir="${srcGuidedTreeOperators}">
+				<include name="**/*.java" />
+				<include name="**/*.png" />
+				<include name="**/*.xsl" />
+			</fileset>
+        </jar>
+		<jar jarfile="${distGuidedTreeOperators}/GuidedTreeOperators.addon.jar">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+			<fileset dir="${buildGuidedTreeOperators}">
+				<include name="**/*.png" />
+				<include name="**/*.class" />
+				<include name="**/*.class" />
+				<include name="**/*.properties" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- run beast.jar -->
+	<target name="run_GuidedTreeOperators">
+		<java jar="${distGuidedTreeOperators}/GuidedTreeOperators.jar" fork="true" />
+	</target>
+
+	
+	<!-- JUnit test -->
+	<target name="junitGuidedTreeOperators">
+		<mkdir dir="${report}" />
+		<junit printsummary="yes"> <!--showoutput='yes'-->
+			<classpath>
+				<path refid="classpath" />
+				<path location="${buildGuidedTreeOperators}" />
+			</classpath>
+
+			<formatter type="xml" />
+
+			<batchtest fork="yes" todir="${report}">
+				<fileset dir="${srcGuidedTreeOperators}">
+                    <include name="test/**/*Test.java"/>                                         
+				</fileset>
+				<fileset dir="${srcBeast2}">
+                    <include name="test/beast/integration/**/*Test.java"/>                                         
+                    <exclude name="test/beast/integration/**/ResumeTest.java"/>                                         
+				</fileset>
+			</batchtest>
+		</junit>
+		<echo message="JUnit test finished." />
+	</target>
+    
+    <target name="junitreport">
+		<junitreport todir="${report}">
+			<fileset dir="${report}" includes="*.xml"/>
+			<report format="frames" todir="${report}"/>
+		</junitreport>
+		<echo message="JUnit test report finished." />
+	</target>
+
+
+	<target name="addon"
+	        depends="build_jar_all_GuidedTreeOperators_NoJUnitTest"
+	        description="release BEAST 2 add-on version of GuidedTreeOperators">
+
+		<delete dir="${Add_on_dir}" />
+		<!-- Create the release directory -->
+		<mkdir dir="${Add_on_dir}" />
+		<mkdir dir="${Add_on_dir}/lib" />
+		<mkdir dir="${Add_on_dir}/doc" />
+		<mkdir dir="${Add_on_dir}/examples" />
+		<mkdir dir="${Add_on_dir}/templates" />
+
+		<copy todir="${Add_on_dir}">
+			<fileset file="version.xml"/>
+		</copy>
+		<!--
+		<copy todir="${Add_on_dir}/examples">
+			<fileset dir="examples" />
+		</copy>
+		-->
+		<copy todir="${Add_on_dir}/doc">
+			<fileset dir="doc" includes="GuidedTreeOperators.pdf"/>
+		</copy>
+		<copy todir="${Add_on_dir}/lib">
+			<fileset dir="${distGuidedTreeOperators}" includes="GuidedTreeOperators.addon.jar" />
+		</copy>
+		<copy todir="${Add_on_dir}">
+			<fileset dir="${distGuidedTreeOperators}" includes="GuidedTreeOperators.src.jar" />
+		</copy>
+		
+		<!--
+		<copy todir="${Add_on_dir}/templates">
+			<fileset file="templates/FossilCalibration.xml" />
+		</copy>
+		-->
+		
+		<jar jarfile="${distGuidedTreeOperators}/GuidedTreeOperators.addon.v${versionGuidedTreeOperators}.zip">
+			<fileset dir="${Add_on_dir}">
+				<include name="**/*" />
+			</fileset>
+        </jar>
+		<echo message="Add-on version v${versionGuidedTreeOperators} release is finished." />
+	</target>
+
+
+
+
+
+	<!-- Release -->
+	<property name="version" value="1.0.0" />
+	<property name="version_number" value="${versionGuidedTreeOperators}" />
+	<property name="release_dirGuidedTreeOperators" value="release" />
+	<property name="copyright" value="CladeAge development team 2013" />
+
+	<property name="CladeAge_name" value="CladeAge" />
+
+	<property name="common_dirGuidedTreeOperators" value="${release_dirGuidedTreeOperators}/common" />
+	<property name="Mac_dirGuidedTreeOperators" value="${release_dirGuidedTreeOperators}/Mac" />
+	<property name="Linux_dirGuidedTreeOperators" value="${release_dirGuidedTreeOperators}/Linux" />
+	<property name="Windows_dirGuidedTreeOperators" value="${release_dirGuidedTreeOperators}/Windows" />
+
+	<property name="Mac_package_dirGuidedTreeOperators" value="${Mac_dirGuidedTreeOperators}/${CladeAge_name}" />
+	<property name="Linux_package_dirGuidedTreeOperators" value="${Linux_dirGuidedTreeOperators}/${CladeAge_name}" />
+	<property name="Windows_package_dirGuidedTreeOperators" value="${Windows_dirGuidedTreeOperators}/${CladeAge_name}" />
+
+	<!-- Need to either install Launch4j under {CladeAge workspace}/${release}
+                 or install it in the default directory and change the location of launch4j.dir -->
+	<target name="windows"
+	        depends="build_jar_all_GuidedTreeOperators_NoJUnitTest"
+	        description="release Windows version of CladeAge">
+
+		<delete dir="${Windows_package_dirGuidedTreeOperators}" />
+		<!-- Create the release directory -->
+		<mkdir dir="${Windows_package_dirGuidedTreeOperators}" />
+
+		<property name="launch4j.dir" location="../../launch4j" />
+		<taskdef name="launch4j"
+		         classname="net.sf.launch4j.ant.Launch4jTask"
+		         classpath="${launch4j.dir}/launch4j.jar :${launch4j.dir}/lib/xstream.jar" />
+
+		<copy file="${distGuidedTreeOperators}/GuidedTreeOperators.src.jar" todir="${Windows_package_dirGuidedTreeOperators}/lib" />
+		<copy file="${common_dirGuidedTreeOperators}/VERSION HISTORY.txt" todir="${Windows_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/README.txt" todir="${Windows_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/LICENSE.txt" todir="${Windows_package_dirGuidedTreeOperators}" />
+
+		<!-- CladeAge v?.?.?.exe -->
+		<launch4j configFile="${Windows_dirGuidedTreeOperators}/CladeAge_launch4j.xml"
+		          jar="${distGuidedTreeOperators}/GuidedTreeOperators.jar"
+		          outfile="${Windows_package_dirGuidedTreeOperators}/${CladeAge_name}.exe"
+		          fileVersion="${version_number}.0"
+		          txtFileVersion="${versionGuidedTreeOperators}"
+		          productVersion="${version_number}.0"
+		          txtProductVersion="${versionGuidedTreeOperators}" />
+
+		<copy todir="${Windows_package_dirGuidedTreeOperators}/templates/">
+			<fileset dir="templates/" />
+		</copy>
+
+		<zip destfile="${Windows_dirGuidedTreeOperators}/${CladeAge_name} v${versionGuidedTreeOperators}.zip">
+			<zipfileset dir="${Windows_package_dirGuidedTreeOperators}" prefix="${CladeAge_name}" />
+		</zip>
+
+		<echo message="Windows version release is finished." />
+	</target>
+
+	<target name="linux"
+	        depends="build_jar_all_GuidedTreeOperators_NoJUnitTest"
+	        description="release Linux/Unix version of CladeAge">
+		<delete dir="${Linux_package_dirGuidedTreeOperators}" />
+		<!-- Create the release directory -->
+		<mkdir dir="${Linux_package_dirGuidedTreeOperators}" />
+
+		<copy todir="${Linux_package_dirGuidedTreeOperators}/bin">
+			<fileset dir="${Linux_dirGuidedTreeOperators}/bin" />
+		</copy>
+		<chmod dir="${Linux_package_dirGuidedTreeOperators}/bin" perm="755" includes="**/**" />
+
+		<copy file="${distGuidedTreeOperators}/GuidedTreeOperators.jar" todir="${Linux_package_dirGuidedTreeOperators}/lib" />
+		<copy file="${distGuidedTreeOperators}/GuidedTreeOperators.src.jar" todir="${Linux_package_dirGuidedTreeOperators}/lib" />
+		<copy file="${common_dirGuidedTreeOperators}/icons/GuidedTreeOperators.png" todir="${Linux_package_dirGuidedTreeOperators}/images" />
+
+		<copy file="${common_dirGuidedTreeOperators}/VERSION HISTORY.txt" todir="${Linux_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/README.txt" todir="${Linux_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/LICENSE.txt" todir="${Linux_package_dirGuidedTreeOperators}" />
+
+		<echo message="Have to tar manaully, because [ANT Bug 550] the tar task change the mode of the executables files." />
+		<echo message="Linux/Unix version release is finished." />
+	</target>
+
+	<property name="jarbundler_dir" value="/Applications/eclipse/plugins/org.apache.ant_1.8.3.v201301120609/lib" />
+	<target name="mac"
+	        depends="build_jar_all_GuidedTreeOperators_NoJUnitTest"
+	        description="release Mac version of CladeAge">
+		<delete dir="${Mac_package_dirGuidedTreeOperators}" />
+		<delete file="${Mac_dirGuidedTreeOperators}/pack.temp.dmg"/>
+		<delete file="${Mac_dirGuidedTreeOperators}/CladeAge v${versionGuidedTreeOperators}.dmg"/>
+		<!-- Create the release directory -->
+		<mkdir dir="${Mac_package_dirGuidedTreeOperators}" />
+
+		<copy todir="${Mac_package_dirGuidedTreeOperators}/bin">
+			<fileset dir="${Linux_dirGuidedTreeOperators}/bin" />
+		</copy>
+		<chmod dir="${Mac_package_dirGuidedTreeOperators}/bin" perm="755" includes="**/**" />
+
+		<copy file="${distGuidedTreeOperators}/GuidedTreeOperators.jar" todir="${Mac_package_dirGuidedTreeOperators}/lib" />
+		<copy file="${distGuidedTreeOperators}/GuidedTreeOperators.src.jar" todir="${Mac_package_dirGuidedTreeOperators}/lib" />
+
+		<copy file="${common_dirGuidedTreeOperators}/VERSION HISTORY.txt" todir="${Mac_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/README.txt" todir="${Mac_package_dirGuidedTreeOperators}" />
+		<copy file="${common_dirGuidedTreeOperators}/LICENSE.txt" todir="${Mac_package_dirGuidedTreeOperators}" />
+
+		<taskdef name="jarbundler"
+		         classname="net.sourceforge.jarbundler.JarBundler"
+		         classpath="${jarbundler_dir}/jarbundler-2.2.0.jar" />
+
+		<!-- create a jar bundle for the mac -->
+		<jarbundler dir="${Mac_package_dirGuidedTreeOperators}"
+		            name="${CladeAge_name}"
+		            mainclass="${main_class_CladeAge}"
+		            icon="${common_dirGuidedTreeOperators}/icons/GuidedTreeOperators.icns"
+		            jvmversion="1.8+"
+		            vmoptions="-Xmx1024M"
+		            arguments="-window -working -options"
+		            version="${versionGuidedTreeOperators}"
+		            infostring="${CladeAge_name}, ${copyright}"
+		            bundleid="${main_class_CladeAge}">
+			<jarfileset dir="${Mac_package_dirGuidedTreeOperators}/lib">
+				<include name="**/GuidedTreeOperators.jar" />
+			</jarfileset>
+			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
+			<javaproperty name="java.library.path" value="$JAVAROOT:/usr/local/lib" />
+		</jarbundler>
+
+		<echo message="Building disk image." />
+		<exec executable='release/Mac/createdmg.sh'/>
+		<echo message="Mac version release is finished." />
+	</target>
+
+
+
+
+</project>

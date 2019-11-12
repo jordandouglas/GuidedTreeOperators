@@ -121,11 +121,10 @@
 
 
 
-	<operator id="WilsonBaldingRates" spec="GuidedTreeOperators.operators.WilsonBaldingRates" tree="@Tree.t:dna" rates="@fastRates.c:dna" weight="10"></operator>
+	
 
 
-
-	<operator id="PosteriorGuider" spec="GuidedTreeOperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="50" alignment="@dna" guider="posterior">
+	<operator id="PosteriorGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="50" alignment="@dna" guider="posterior">
 		
 		<op id="GuidedNarrowExchange" spec="guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
 		
@@ -140,7 +139,7 @@
  	</operator>
 
 
-	<operator id="ParsimonyGuider" spec="GuidedTreeOperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0" alignment="@dna" guider="parsimony">
+	<operator id="ParsimonyGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0" alignment="@dna" guider="parsimony">
 		<op id="GuidedNarrowExchange2" spec="guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
  	</operator>
 
@@ -158,12 +157,12 @@
 	<operator id="nnirateABCDE_parsimony" spec="GuidedTreeOperators.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="2" alignment="@dna">
  		<op spec="GuidedTreeOperators.operators.nnirateABCDE.Constraints_null" weight="5"/>
  	</operator>
-	-->
+	
 
 	<operator id="nnirateABCDE_null" spec="GuidedTreeOperators.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="10">
  		<op spec="GuidedTreeOperators.operators.nnirateABCDE.Constraints_null" weight="5"/>
  	</operator>
-
+	-->
 
 	<operator id="NarrowExchangeOperator.c:dna" spec="consoperators.NarrowExchangeOperator" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0.1" weight="0"/>
 
