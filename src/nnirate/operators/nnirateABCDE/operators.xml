@@ -1,0 +1,191 @@
+	<operator id="nnirateABCDE_dAB_dAC_dAE_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dAE_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dAE_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dAE_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dAE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dAE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dAE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dAE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dBC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dBC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAE_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAE_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAE_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAE_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dAE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dAE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dBC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dBC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dBE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dBE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAB" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAB" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE_dBE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE_dBE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dAE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dAE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dBC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dBC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dBE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dBE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dBC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dBC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dBE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dBE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dAE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dAE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dBC_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dBC_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dBC_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dBC_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dBC" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dBC" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dBE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dBE_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dBE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dBE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_dCE" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_dCE" weight="5"/>
+ 	</operator>
+
+	<operator id="nnirateABCDE_null" spec="nnirate.operators.MetaNNIrate" tree="@Tree.t:dna" rates="@fastRates.c:dna" rwindowSize="0" weight="0.5">
+ 		<op spec="nnirate.operators.nnirateABCDE.Constraints_null" weight="5"/>
+ 	</operator>
