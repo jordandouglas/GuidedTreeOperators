@@ -94,8 +94,6 @@ public class BranchRateTreeGuider extends TreeGuider {
 		
 		// Convert 0.99 to 0.01 etc. Now large numbers indicate being close to the median.
 		if (cdfFrom > 0.5) cdfFrom = 1 - cdfFrom;
-		
-		// Convert 0.01 to 0.99 etc. Now large numbers indicate far distance from the median.
 		if (cdfTo > 0.5) cdfTo = 1 - cdfTo;
 		
 		score = Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
