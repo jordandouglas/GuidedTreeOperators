@@ -152,10 +152,11 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
       	        
 					// Case 1: A is the first child of D
 					A = D.getChild(0);
+					B = D.getChild(1);
 					
 					// Temporarily rearrange the copied tree to get the neighbour
 	    			exchangeNodes(A, C, D, E);
-	    			treeGuider.addNeighbouringTree(trevor);
+	    			treeGuider.addNeighbouringTree(trevor, B.getNr(), D.getNr());
 
 					// Restore the copied tree
 					exchangeNodes(A, C, E, D);
@@ -164,12 +165,13 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
 					// Case 2: A is the second child of D
 					int originalANr = A.getNr();
 					A = D.getChild(0);
+					B = D.getChild(1);
 					if (A.getNr() == originalANr) {
 						System.out.println("Unexpected node positioning");
 						A = D.getChild(1);
 					}
 					exchangeNodes(A, C, D, E);
-					treeGuider.addNeighbouringTree(trevor);
+					treeGuider.addNeighbouringTree(trevor, B.getNr(), D.getNr());
 					
 					// Restore the tree
 					exchangeNodes(A, C, E, D);

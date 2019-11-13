@@ -13,33 +13,27 @@ import beast.core.Operator;
 import beast.core.OperatorSchedule;
 import beast.core.StateNode;
 import beast.core.util.Log;
-import beast.evolution.alignment.Alignment;
 import beast.evolution.operators.TreeOperator;
 import beast.evolution.tree.Tree;
 import beast.util.Randomizer;
 import operators.guidedtreeoperators.GuidedTreeOperator;
-import operators.treeguiding.CCPTreeGuider;
-import operators.treeguiding.ParsimonyTreeGuider;
 import operators.treeguiding.TreeGuider;
 
 public class MetaGuidedTreeOperator extends TreeOperator  {
 
 
-	
 	final public Input<List<TreeOperator>> operatorsInput = new Input<>("op", "operators to sample", new ArrayList<>());
-	final public Input<Alignment> alignmentInput = new Input<>("alignment", "tree alignment for computing parsimony score", Input.Validate.REQUIRED);
-    final public Input<String> treeGuiderNameInput = new Input<>("guider", "select a tree guiding algorithm (parsimony, posterior, none)", "parsimony");
-	
-    Tree tree;
+    final public Input<TreeGuider> treeGuiderInput = new Input<>("guider", "select a tree guiding algorithm", Input.Validate.REQUIRED);
     
+    
+    Tree tree;
     TreeGuider treeGuider;
     
-    
-	
 	
 	List<TreeOperator> operators;
 	double weightSum;
 	TreeOperator lastOperator;
+	
 	
 	
 	@Override
@@ -48,36 +42,8 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		tree =  treeInput.get();
 		
 		
-		switch (treeGuiderNameInput.get()) {
-		
-			case "parsimony":{
-				treeGuider = new ParsimonyTreeGuider(alignmentInput.get());
-				break;
-			}
-			
-			case "posterior":{
-				treeGuider = new CCPTreeGuider(alignmentInput.get());
-				break;
-			}
-		
-			
-			case "none":{
-				treeGuider = new TreeGuider(alignmentInput.get());
-				break;
-			}
-			
-			default:{
-				
-				throw new IllegalArgumentException("Unrecognised tree guiding parameter: '" + treeGuiderNameInput.get() +
-							"'. Please use one of the following: {parsimony, posterior, none}");
-			}
-			
-			
-			
-		
-		}
-		treeGuider.initAndValidate();
-		
+
+		treeGuider = treeGuiderInput.get();
 		
 		
 		// Compute sum of all operator weights
@@ -119,7 +85,8 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		
 		
 		// If it is a normal tree operator then proceed normally
-		if (! (lastOperator instanceof GuidedTreeOperator)) {
+		boolean normalOperator = lastOperator instanceof GuidedTreeOperator;
+		if (!normalOperator) {
 			return lastOperator.proposal();
 		}
 		
@@ -186,6 +153,8 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 	@Override
 	public void optimize(double logAlpha) {
 		lastOperator.optimize(logAlpha);
+		double delta = calcDelta(logAlpha);
+		treeGuider.optimize(delta);
 	}
 	
 	@Override

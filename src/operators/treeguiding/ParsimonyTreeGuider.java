@@ -1,32 +1,46 @@
 package operators.treeguiding;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import beast.core.Description;
+import beast.core.Input;
+import beast.core.Operator;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.tree.Tree;
 import beast.parsimony.FitchParsimony;
 
+
+@Description("A class for sampling neighbouring trees, based off parsimony scores")
 public class ParsimonyTreeGuider extends TreeGuider {
 
 	
-    public ParsimonyTreeGuider(Alignment alignment) {
-		super(alignment);
-		fitch = new FitchParsimony(alignment, false);
+	public final Input<Double> warpFactorInput = new Input<>("warpFactor", "Warp factor", 0.5);
+	public final Input<Double> pseudocountInput = new Input<>("pseudocount", "Parsimony pseudocount", 0.1);
+	public final Input<Alignment> dataInput = new Input<>("data", "Multiple sequence alignment for computing parsimony scores", Input.Validate.REQUIRED);
+	
+	
+    public ParsimonyTreeGuider() {
+
 	}
 
 
     double minScore;
     double maxScore;
+    double baseFactor = 0.9;
+    double warpfactor;
+    
     
 	FitchParsimony fitch;
     Tree tree;
     final int NUM_TREE_SCORES_TO_CACHE = 100;
-    final double PSEUDOCOUNT = 0.1;
+    double pseudocount;
+    Alignment alignment;
     
     @Override
 	public void initAndValidate() {
+    	alignment = dataInput.get();
+    	pseudocount = pseudocountInput.get();
+    	fitch = new FitchParsimony(alignment, false);
+    	warpfactor = warpFactorInput.get();
     	super.initAndValidate();
 	}
     
@@ -55,7 +69,7 @@ public class ParsimonyTreeGuider extends TreeGuider {
     
     // Calculates Fitch parsimony score of the tree
     @Override
-    protected void computeUnnormalisedScore(Tree tree, String newick) {
+    protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
     	
     	double score = 0;
     	
@@ -92,6 +106,15 @@ public class ParsimonyTreeGuider extends TreeGuider {
     	return fitch.getScore(tree);
 	}
     
+    @Override
+	public void optimize(double delta) {
+    	
+    	// Larger warp factors correspond to greater weight behind parsimony scores
+    	delta += Math.log(warpfactor);
+    	warpfactor = Math.exp(delta);
+	}
+
+    
     
     @Override
     public double[] getProposalProbabilities() {
@@ -106,7 +129,9 @@ public class ParsimonyTreeGuider extends TreeGuider {
     	for (int i = 0; i < neighbours.size(); i ++) {
     		double score = neighbourScores.get(i);
 			double newScore = score;
-			if (maxScore != minScore) newScore = 1 - (score - minScore) / (maxScore - minScore) + PSEUDOCOUNT;
+			// if (maxScore != minScore) newScore = 1 - (score - minScore) / (maxScore - minScore) + pseudocount;
+			if (maxScore != minScore) newScore = (score - minScore) / (maxScore - minScore) + pseudocount;
+			newScore = Math.pow(baseFactor, warpfactor*newScore);
 			scoreSum += newScore;
 			probabilities[i] = newScore;
     	}

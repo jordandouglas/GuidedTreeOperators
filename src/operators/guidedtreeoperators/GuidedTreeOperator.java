@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import beast.core.Input;
-import beast.evolution.alignment.Alignment;
 import beast.evolution.operators.TreeOperator;
-import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import operators.treeguiding.TreeGuider;
 

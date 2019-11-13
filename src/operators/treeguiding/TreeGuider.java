@@ -1,36 +1,73 @@
 package operators.treeguiding;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import beast.evolution.alignment.Alignment;
+import beast.core.BEASTObject;
+import beast.core.Description;
+import beast.core.Input;
 import beast.evolution.tree.Tree;
+import beast.util.Randomizer;
 import operators.TreeGuideUtils;
 
-public class TreeGuider {
+@Description("A class for sampling neighbouring trees, based off some tree scoring criterion. Can be used by MetaGuidedTreeOperator")
+public class TreeGuider extends BEASTObject {
+	
+	final public Input<Double> neighbourSampleProbInput = new Input<>("prob", "Probability of a given neighbour being selected as a possible proposal (defaults to 1.0, all neighbours)", 1.0);
+	
 	
 	
 	final int[] dummy = new int[1];
 	List<String> neighbours = new ArrayList<String>();
 	List<Double> neighbourScores = new ArrayList<Double>();
 	
-	protected static final int MAX_CACHE_SIZE = 10000;
+	
+	protected static final int MAX_CACHE_SIZE = 100000;
 	
 	
 	final long N_STATES_UNTIL_OPTIMISATION_CEASES = 100000000;
 	long totalNStates = 0;
 	LinkedHashMap<String, Double> scoreCache;
 		
-	Alignment alignment;
+	
 	Tree currentTree;
 	
+	double neighbourSampleProb;
+	
+	public TreeGuider() {
+		
+	}
 	
 	
-	public TreeGuider(Alignment alignment) {
-		this.alignment = alignment;
+	
+	
+	@Override
+	public void initAndValidate() {
+		
+		neighbourSampleProb = neighbourSampleProbInput.get();
+		
+		assert neighbourSampleProb >= 0;
+		assert neighbourSampleProb <= 1;
+		
+		
+		scoreCache = new LinkedHashMap<String, Double>() {
+		     protected boolean removeEldestEntry(Map.Entry<String, Double> eldest) {
+		    	 if (size() > MAX_CACHE_SIZE) {
+		    		 //System.out.println("kicking");
+		    	 }
+		        return size() > MAX_CACHE_SIZE;
+		     }
+		};
+	      
+		
+	}
+	
+	
+	
+	public void optimize(double delta) {
+		
 	}
 	
 	
@@ -55,25 +92,7 @@ public class TreeGuider {
 	public List<String> getNeighbours(){
 		return neighbours;
 	}
-	
-	
-	
-	public void initAndValidate() {
-		
-		
-	     scoreCache = new LinkedHashMap<String, Double>() {
-	         protected boolean removeEldestEntry(Map.Entry<String, Double> eldest) {
-	        	 if (size() > MAX_CACHE_SIZE) {
-	        		 //System.out.println("kicking");
-	        	 }
-	            return size() > MAX_CACHE_SIZE;
-	         }
-	      };
-	      
-	      
-		
-	}
-	
+
 	
 	// Resets the list of neighbours of the current tree
 	protected void resetNeighbours() {
@@ -82,15 +101,43 @@ public class TreeGuider {
 	}
 	
 	// Adds the neighbouring tree to the list of neighbours and computes its score
-	public void addNeighbouringTree(Tree neighbour) {
+	public void addNeighbouringTree(Tree neighbour, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+		
 		
 		// Add newick to list
 		String newick = TreeGuideUtils.serialiseNode(neighbour.getRoot());
 		neighbours.add(newick);
 		
-		computeUnnormalisedScore(neighbour, newick);
+		// With some probability, this neighbour will be ignored altogether
+		// It is important to increment the neighbour index anyway
+		if (Randomizer.nextFloat() < neighbourSampleProb) {
+			computeUnnormalisedScore(neighbour, newick, nodeBeingMovedNr, nodeBeingMoveToNr);
+		}else {
+			neighbourScores.add(0.0);
+		}
+		
+		
+		
 		
 	}
+	
+	
+	
+	// Calculates and caches the unnormalised score of a single tree
+	protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+		
+		
+		// Check cache for score
+		if (!scoreCache.containsKey(newick)) {
+			
+			// Compute non-normalised score and add to cache
+			double score = getScore(tree, newick);
+			neighbourScores.add(score);
+			if (scoreCache.size() <= MAX_CACHE_SIZE) scoreCache.put(newick, score);
+		}
+		
+	}
+	
 	
 	
 	// Iterates through all neighbours, and normalises their scores to return a cumulative
@@ -135,22 +182,7 @@ public class TreeGuider {
 	
 	
 	
-	
-	// Calculates and caches the unnormalised score of a single tree
-	protected void computeUnnormalisedScore(Tree tree, String newick) {
-		
-		
-		// Check cache for score
-		if (!scoreCache.containsKey(newick)) {
-			
-			// Compute non-normalised score and add to cache
-			double score = getScore(tree, newick);
-			neighbourScores.add(score);
-			if (scoreCache.size() <= MAX_CACHE_SIZE) scoreCache.put(newick, score);
-		}
-		
-	}
-	
+
 	
 	protected double getScore(Tree tree, String newick) {
 		return 1;
