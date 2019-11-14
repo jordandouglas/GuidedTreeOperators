@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -23,7 +23,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-package tools;
+package guidedtreeoperators.tools;
 
 
 import java.util.BitSet;

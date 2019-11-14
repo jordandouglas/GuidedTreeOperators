@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,7 +13,7 @@ import beast.core.util.ESS;
 import beast.core.util.Log;
 import beast.core.Input.Validate;
 import beast.evolution.tree.Tree;
-import operators.TreeGuideUtils;
+import guidedtreeoperators.tools.TreeGuideUtils;
 
 @Description("A class for sampling neighbouring trees using conditional clade probability (CCP)")
 public class CCPTreeGuider extends TreeGuider {
@@ -185,7 +185,7 @@ public class CCPTreeGuider extends TreeGuider {
     
     // Calculates and caches conditional clade probability (CCP) of the tree
     @Override
-    protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+    protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
     	
     	
     	double score = 0;
@@ -236,8 +236,9 @@ public class CCPTreeGuider extends TreeGuider {
 		}
     	
 		maxLogProb = Math.max(maxLogProb, score);
-		neighbourScores.add(score);
 		scoreSum += score;
+		
+		return score;
 		
 		
 	}

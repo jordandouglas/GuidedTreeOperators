@@ -1,4 +1,4 @@
-package tools;
+package guidedtreeoperators.tools;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,7 +18,6 @@ import beast.core.Description;
 import beast.core.Input;
 import beast.core.Runnable;
 import beast.core.util.Log;
-import tools.RateCladeSet;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.Node;
 import beast.util.Randomizer;

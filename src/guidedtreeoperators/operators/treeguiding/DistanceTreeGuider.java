@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 
 
@@ -79,10 +79,11 @@ public class DistanceTreeGuider extends TreeGuider {
     
     // Calculates and caches MDS distance to another tree tree
     @Override
-    protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+    protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
         final double d = weightProvider.dist(weights[nodeBeingMovedNr], weights[nodeBeingMoveToNr]);
-        scoreSum += 1 / d;
-        neighbourScores.add(1 / d);
+        double score = 1 / d;
+        scoreSum += score;
+        return score;
 	}
     
     

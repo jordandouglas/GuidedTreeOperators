@@ -1,11 +1,11 @@
-package operators.guidedtreeoperators;
+package guidedtreeoperators.operators.guidedtreeoperators;
 
 
 import beast.core.Input;
 import beast.core.parameter.RealParameter;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
-import operators.treeguiding.TreeGuider;
+import guidedtreeoperators.operators.treeguiding.TreeGuider;
 
 public class GuidedNarrowExchange extends GuidedTreeOperator {
 

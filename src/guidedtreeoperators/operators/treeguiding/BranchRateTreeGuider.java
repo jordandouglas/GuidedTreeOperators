@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ContinuousDistribution;
@@ -74,7 +74,7 @@ public class BranchRateTreeGuider extends TreeGuider {
 	
 	// Calculates Fitch parsimony score of the tree
 	@Override
-	protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+	protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
 		
 		double score = 0;
 		
@@ -99,14 +99,12 @@ public class BranchRateTreeGuider extends TreeGuider {
 		score = Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
 		
 		scoreSum += score;
-		neighbourScores.add(score);
+		
+		return score;
 		
 	}
 	
-	@Override
-	protected double getScore(Tree tree, String newick) {
-		return 0;
-	}
+
 	
 	@Override
 	public void optimize(double delta) {

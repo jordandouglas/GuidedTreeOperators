@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -10,7 +10,7 @@ import beast.core.Description;
 import beast.core.Input;
 import beast.evolution.tree.Tree;
 import beast.util.Randomizer;
-import operators.TreeGuideUtils;
+import guidedtreeoperators.tools.TreeGuideUtils;
 
 @Description("A class for sampling neighbouring trees, based off some tree scoring criterion. Can be used by MetaGuidedTreeOperator")
 public class TreeGuider extends BEASTObject {
@@ -111,12 +111,11 @@ public class TreeGuider extends BEASTObject {
 		// With some probability, this neighbour will be ignored altogether
 		// It is important to increment the neighbour index anyway
 		if (Randomizer.nextFloat() < neighbourSampleProb) {
-			computeUnnormalisedScore(neighbour, newick, nodeBeingMovedNr, nodeBeingMoveToNr);
+			double score = computeUnnormalisedScore(neighbour, newick, nodeBeingMovedNr, nodeBeingMoveToNr);
+			neighbourScores.add(score);
 		}else {
 			neighbourScores.add(0.0);
 		}
-		
-		
 		
 		
 	}
@@ -124,18 +123,8 @@ public class TreeGuider extends BEASTObject {
 	
 	
 	// Calculates and caches the unnormalised score of a single tree
-	protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
-		
-		
-		// Check cache for score
-		if (!scoreCache.containsKey(newick)) {
-			
-			// Compute non-normalised score and add to cache
-			double score = getScore(tree, newick);
-			neighbourScores.add(score);
-			if (scoreCache.size() <= MAX_CACHE_SIZE) scoreCache.put(newick, score);
-		}
-		
+	protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+		return 1;
 	}
 	
 	
@@ -182,12 +171,6 @@ public class TreeGuider extends BEASTObject {
 	
 	
 	
-
-	
-	protected double getScore(Tree tree, String newick) {
-		return 1;
-	}
-
 
 
 	public double getCacheSize() {

@@ -1,4 +1,4 @@
-package operators.guidedtreeoperators;
+package guidedtreeoperators.operators.guidedtreeoperators;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Map;
 import beast.core.Input;
 import beast.evolution.operators.TreeOperator;
 import beast.evolution.tree.Tree;
-import operators.treeguiding.TreeGuider;
+import guidedtreeoperators.operators.treeguiding.TreeGuider;
 
 public class GuidedTreeOperator extends TreeOperator {
 

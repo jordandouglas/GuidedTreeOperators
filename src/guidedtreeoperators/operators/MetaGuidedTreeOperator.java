@@ -1,4 +1,4 @@
-package operators;
+package guidedtreeoperators.operators;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ import beast.core.util.Log;
 import beast.evolution.operators.TreeOperator;
 import beast.evolution.tree.Tree;
 import beast.util.Randomizer;
-import operators.guidedtreeoperators.GuidedTreeOperator;
-import operators.treeguiding.TreeGuider;
+import guidedtreeoperators.operators.guidedtreeoperators.GuidedTreeOperator;
+import guidedtreeoperators.operators.treeguiding.TreeGuider;
 
 public class MetaGuidedTreeOperator extends TreeOperator  {
 

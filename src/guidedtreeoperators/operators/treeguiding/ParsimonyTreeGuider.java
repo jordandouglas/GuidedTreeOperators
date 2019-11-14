@@ -1,4 +1,4 @@
-package operators.treeguiding;
+package guidedtreeoperators.operators.treeguiding;
 
 
 import beast.core.Description;
@@ -69,7 +69,7 @@ public class ParsimonyTreeGuider extends TreeGuider {
     
     // Calculates Fitch parsimony score of the tree
     @Override
-    protected void computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+    protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
     	
     	double score = 0;
     	
@@ -78,7 +78,8 @@ public class ParsimonyTreeGuider extends TreeGuider {
 			
 			// Compute non-normalised score and add to cache
 			
-			score = getScore(tree, newick);
+			fitch.reset();
+	    	score = fitch.getScore(tree);
 
 			if (scoreCache.size() <= MAX_CACHE_SIZE) scoreCache.put(newick, score);
 			else System.out.println("Parsimony cache full");
@@ -96,15 +97,9 @@ public class ParsimonyTreeGuider extends TreeGuider {
 		minScore = Math.min(minScore, score);
 		maxScore = Math.max(maxScore, score);
 		
-		neighbourScores.add(score);
-		
+		return score;
 	}
     
-    @Override
-	protected double getScore(Tree tree, String newick) {
-    	fitch.reset();
-    	return fitch.getScore(tree);
-	}
     
     @Override
 	public void optimize(double delta) {

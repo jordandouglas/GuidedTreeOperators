@@ -1,11 +1,11 @@
-package operators.guidedtreeoperators;
+package guidedtreeoperators.operators.guidedtreeoperators;
 
 import java.util.List;
 
 import beast.evolution.operators.TreeOperator;
 import beast.evolution.operators.WilsonBalding;
 import beast.evolution.tree.Tree;
-import operators.treeguiding.TreeGuider;
+import guidedtreeoperators.operators.treeguiding.TreeGuider;
 
 public class GuidedWilsonBalding extends GuidedTreeOperator {
 

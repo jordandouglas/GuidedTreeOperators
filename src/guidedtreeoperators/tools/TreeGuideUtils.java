@@ -1,4 +1,4 @@
-package operators;
+package guidedtreeoperators.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;

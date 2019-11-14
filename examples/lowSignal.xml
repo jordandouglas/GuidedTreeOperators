@@ -140,42 +140,42 @@
 	<operator id="BirthDeathWilsonBalding.t:dna" spec="WilsonBalding" tree="@Tree.t:dna" weight="10.0"/>
 
 
-	<operator id="PosteriorGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0" >
-		<guider id="CCPTreeGuider" spec="operators.treeguiding.CCPTreeGuider" ESS="100.0" >
+	<operator id="PosteriorGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0" >
+		<guider id="CCPTreeGuider" spec="guidedtreeoperators.operators.treeguiding.CCPTreeGuider" ESS="100.0" >
 			<param idref="posterior"/>
 		</guider>
 	
-		<op id="PosteriorNarrowExchange" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
-		<op id="PosteriorNarrowExchangeRates" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
+		<op id="PosteriorNarrowExchange" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
+		<op id="PosteriorNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
 		
  	</operator>
 
 
-	<operator id="RatesGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="10">
-		<guider id="RatesTreeGuider" spec="operators.treeguiding.BranchRateTreeGuider" prob="1" warpfactor="2" rates="@fastRates.c:dna" sigma="@fastUcldStdev.c:dna"></guider>
+	<operator id="RatesGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="10">
+		<guider id="RatesTreeGuider" spec="guidedtreeoperators.operators.treeguiding.BranchRateTreeGuider" prob="1" warpfactor="2" rates="@fastRates.c:dna" sigma="@fastUcldStdev.c:dna"></guider>
 
-		<op id="RatesNarrowExchange" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
-		<op id="RatesNarrowExchangeRates" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
+		<op id="RatesNarrowExchange" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
+		<op id="RatesNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
  	</operator>
 	
 	
 
-	<operator id="MDSGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="10">
-		<guider id="DistanceTreeGuider" spec="operators.treeguiding.DistanceTreeGuider" prob="1">
-			<weights id="AlignmentDistanceProvider" spec="operators.treeguiding.AlignmentDistanceProvider" tree="@Tree.t:dna" data="@dna" svg="test.svg" dimension="5">
+	<operator id="MDSGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="10">
+		<guider id="DistanceTreeGuider" spec="guidedtreeoperators.operators.treeguiding.DistanceTreeGuider" prob="1">
+			<weights id="AlignmentDistanceProvider" spec="guidedtreeoperators.operators.treeguiding.AlignmentDistanceProvider" tree="@Tree.t:dna" data="@dna" svg="test.svg" dimension="5">
 				<distance spec="beast.evolution.alignment.distance.F84Distance"/>
 			</weights>
  		</guider>
 
-		<op id="MDSNarrowExchange" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
-		<op id="MDSNarrowExchangeRates" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
+		<op id="MDSNarrowExchange" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
+		<op id="MDSNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
  	</operator>
 
 
-	<operator id="ParsimonyGuider" spec="operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0">
-		<guider id="ParsimonyTreeGuider" spec="operators.treeguiding.ParsimonyTreeGuider" pseudocount="0.5" data="@dna" prob="0.2"/>
+	<operator id="ParsimonyGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0">
+		<guider id="ParsimonyTreeGuider" spec="guidedtreeoperators.operators.treeguiding.ParsimonyTreeGuider" pseudocount="0.5" data="@dna" prob="0.2"/>
 
-		<op id="ParsimonyNarrowExchange" spec="operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
+		<op id="ParsimonyNarrowExchange" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
  	</operator>
 
 
