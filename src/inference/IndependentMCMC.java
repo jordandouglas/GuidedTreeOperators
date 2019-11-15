@@ -34,14 +34,12 @@ public class IndependentMCMC extends MCMC {
 	
 	
 	public final Input<Integer> checkForConvergenceEveryInput = new Input<Integer>("checkEvery", "number of samples in between checking for convergence", 100000);
-	public final Input<Double> thresholdInput = new Input<Double>("threshold", "maximum difference in clade probability required to declare convergence", 0.1);
+	public final Input<Double> thresholdInput = new Input<Double>("threshold", "maximum difference in clade probability required to declare convergence", 0.2);
 	public final Input<Integer> convergenceLengthInput = new Input<Integer>("convergedFor", "maximum difference in clade probability must be less than threshold "
 			+ "										this many checks in a row before convergence is declared and the chains are stopped", 3);
 	public final Input<String> tempDirInput = new Input<>("tempDir","directory where temporary files are written", "/tmp/");
 	
 	public final Input<List<TreeStoreLogger>> treeStorersInput = new Input<>("treeStorer", "list of tree loggers to check convergence with", new ArrayList<TreeStoreLogger>());
-	
-	public final Input<Integer> storeTreeEveryInput = new Input<Integer>("storeTreeEvery", "how often to store the current tree for checking convergence", 20000);
 	
 	
 	
@@ -100,8 +98,6 @@ public class IndependentMCMC extends MCMC {
 		if (convergenceLength < 0) throw new RuntimeException("convergedFor must be at least 1");
 		
 		
-		storeTreeEvery = storeTreeEveryInput.get();
-		if (storeTreeEvery > checkForConvergenceEvery)  throw new RuntimeException("storeTreeEvery must be less than or equal to checkEvery");
 		numTrees = 0;
 		numTreesTotal = 0;
 		
@@ -113,6 +109,10 @@ public class IndependentMCMC extends MCMC {
 		treeStorers = treeStorersInput.get();
 		if (treeStorers.size() == 0) Log.warning("WARNING: no tree storers have been specifed. Provide one or more"
 				+ "tree storers so that clade posterior convergence can be detected.");
+		
+		for (TreeStoreLogger logger : treeStorers) {
+			if (logger.everyInput.get() > checkForConvergenceEvery) throw new RuntimeException("checkEvery must be at least the logEvery of all tree storers");
+		}
 		
 		
 		cladeMapList1 = new ArrayList<LinkedHashMap<String, Integer>>();
@@ -346,7 +346,7 @@ public class IndependentMCMC extends MCMC {
 			Log.warning("\tIndependentMCMC (" + sampleNr + "): the maximum clade probability difference is " + maximumCladePosteriorDelta);
 			//Log.warning("\t maxDeltaClade: " + maxDeltaClade + " numTreesTotal " + numTreesTotal + " numClades " + allClades.get(0).keySet().size());
 			
-			boolean thresholdMet = false;
+			boolean thresholdMet = maximumCladePosteriorDelta <= threshold;
 			if (thresholdMet) {
 				numberOfConvergedChecks ++;
 			}else {

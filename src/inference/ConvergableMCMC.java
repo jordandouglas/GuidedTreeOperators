@@ -10,16 +10,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import beast.core.Distribution;
 import beast.core.Input;
 import beast.core.Logger;
 import beast.core.MCMC;
 import beast.core.Operator;
-import beast.core.State;
-import beast.core.StateNode;
 import beast.core.StateNodeInitialiser;
 import beast.core.Input.Validate;
-import beast.core.util.CompoundDistribution;
 import beast.core.util.Log;
 
 // Extension to MCMC used by IndependentMCMC
@@ -35,8 +31,6 @@ public class ConvergableMCMC extends MCMC {
 	public final Input<String> tempDirInput = new Input<>("tempDir","dummy input", "/tmp/");
 	public final Input<List<Logger>> treeStorersInput = new Input<>("treeStorer", "dummy input", new ArrayList<Logger>());
 	public final Input<Integer> burnInPercentageInput = new Input<Integer>("convergenceBurnin", "dummy input");
-	public final Input<Integer> storeTreeEveryInput = new Input<Integer>("storeTreeEvery", "dummy input");
-	
 	
 	
 	
