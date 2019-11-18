@@ -96,7 +96,7 @@ public class BranchRateTreeGuider extends TreeGuider {
 		if (cdfFrom > 0.5) cdfFrom = 1 - cdfFrom;
 		if (cdfTo > 0.5) cdfTo = 1 - cdfTo;
 		
-		score = Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
+		score = cdfFrom; //Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
 		
 		scoreSum += score;
 		
@@ -128,8 +128,11 @@ public class BranchRateTreeGuider extends TreeGuider {
 		// Convert scores into a cumulative probability array
 		double cumSum = 0;
 		for (int i = 0; i < neighbours.size(); i ++) {
-			cumSum += neighbourScores.get(i) / scoreSum;
-			probabilities[i] = cumSum;
+			if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+			else {
+				cumSum += neighbourScores.get(i) / scoreSum;
+				probabilities[i] = cumSum;
+			}
 		}
 		
 		

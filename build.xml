@@ -205,6 +205,7 @@
 			<fileset dir="doc" includes="GuidedTreeOperators.pdf"/>
 		</copy>
 		<copy todir="${Add_on_dir}/lib">
+			<fileset dir="${libGuidedTreeOperators}" includes="mdsj.jar"/>
 			<fileset dir="${distGuidedTreeOperators}" includes="GuidedTreeOperators.addon.jar" />
 		</copy>
 		<copy todir="${Add_on_dir}">

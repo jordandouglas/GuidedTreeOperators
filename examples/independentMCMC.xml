@@ -57,7 +57,7 @@
 <map name="OneOnX" >beast.math.distributions.OneOnX</map>
 
 
-<run spec="inference.IndependentMCMC" id="mcmc" chainLength="1000000">
+<run spec="inference.IndependentMCMC" id="mcmc" threshold="0.1" rhatLogger="@tracelog">
 
     <treeStorer id="independentMCMCLogger" spec="inference.TreeStoreLogger" fileName="store.$(tree).$(chain).trees" logEvery="10000" mode="tree">
         <log spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@FastRelaxedClock.c:dna" tree="@Tree.t:dna"/>
@@ -144,6 +144,14 @@
 	<operator id="BirthDeathNarrow.t:dna" spec="Exchange" tree="@Tree.t:dna" weight="10.0"/>
 	<operator id="BirthDeathWide.t:dna" spec="Exchange" isNarrow="false" tree="@Tree.t:dna" weight="3.0"/>
 	<operator id="BirthDeathWilsonBalding.t:dna" spec="WilsonBalding" tree="@Tree.t:dna" weight="10.0"/>
+
+
+	<operator id="RatesGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="10">
+		<guider id="RatesTreeGuider" spec="guidedtreeoperators.operators.treeguiding.BranchRateTreeGuider" prob="1" warpfactor="2" rates="@fastRates.c:dna" sigma="@fastUcldStdev.c:dna"></guider>
+
+		<op id="RatesNarrowExchange" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10"/>
+		<op id="RatesNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@fastRates.c:dna"/>
+ 	</operator>
 
 	<!--
 	<operator id="PosteriorGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:dna" weight="0" >

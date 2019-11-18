@@ -103,7 +103,6 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		// Get proposal probabilities
 		double[] probabilitiesForward = treeGuider.getProposalProbabilities();
 		
-		
     	// Sample a neighbouring tree
     	final int proposedTreeNum = Randomizer.randomChoice(probabilitiesForward);
 		 

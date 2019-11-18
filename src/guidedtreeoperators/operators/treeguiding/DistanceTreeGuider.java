@@ -97,8 +97,11 @@ public class DistanceTreeGuider extends TreeGuider {
     	// Convert scores into a cumulative probability array
     	double cumSum = 0;
     	for (int i = 0; i < neighbours.size(); i ++) {
-    		cumSum += neighbourScores.get(i) / scoreSum;
-    		probabilities[i] = cumSum;
+    		if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+			else {
+	    		cumSum += neighbourScores.get(i) / scoreSum;
+	    		probabilities[i] = cumSum;
+			}
     	}
     	
     	return probabilities;

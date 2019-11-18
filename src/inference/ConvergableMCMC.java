@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 
 import beast.core.Input;
 import beast.core.Logger;
+import beast.core.Logger.LOGMODE;
 import beast.core.MCMC;
 import beast.core.Operator;
 import beast.core.StateNodeInitialiser;
@@ -31,6 +32,9 @@ public class ConvergableMCMC extends MCMC {
 	public final Input<String> tempDirInput = new Input<>("tempDir","dummy input", "/tmp/");
 	public final Input<List<Logger>> treeStorersInput = new Input<>("treeStorer", "dummy input", new ArrayList<Logger>());
 	public final Input<Integer> burnInPercentageInput = new Input<Integer>("convergenceBurnin", "dummy input");
+	public final Input<Logger> rHatLoggerInput = new Input<>("rhatLogger", "dummy input", Input.Validate.OPTIONAL);
+	public final Input<Double> maxRHatInput = new Input<>("rhat", "dummy input", 1.05);
+	
 	
 	
 	
@@ -68,15 +72,18 @@ public class ConvergableMCMC extends MCMC {
 	
 	
 	
+	public ConvergableMCMC() {
+		
+		// Do not allow the user to specify chain length
+		chainLengthInput.setRule(Validate.FORBIDDEN);
+	}
+
 
 	
 	@Override
     public void run() throws SAXException, IOException, ParserConfigurationException {
     	
-    	
-		// Do not allow the user to specify chain length
-		chainLengthInput.setRule(Validate.FORBIDDEN);
-    	
+
     	
         // Set up state (again). Other plugins may have manipulated the
         // StateNodes, e.g. set up bounds or dimensions
@@ -269,6 +276,21 @@ public class ConvergableMCMC extends MCMC {
         }
 		
 		return null;
+	}
+
+
+	public void finish() throws IOException {
+		Log.info.println("MCMC chain " + this.getChainNr() + ":");
+	    operatorSchedule.showOperatorRates(System.out);
+	    Log.info.println();
+	    
+	    close();
+	
+	    Log.warning.println("End likelihood: " + oldLogLikelihood);
+	    Log.info.println();
+	    state.storeToFile(chainLength);
+	    operatorSchedule.storeToFile();
+	    
 	}
 	
 	
