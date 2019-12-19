@@ -13,7 +13,7 @@ import beast.parsimony.FitchParsimony;
 public class ParsimonyTreeGuider extends TreeGuider {
 
 	
-	public final Input<Double> warpFactorInput = new Input<>("warpFactor", "Warp factor", 0.5);
+	public final Input<Double> warpFactorInput = new Input<>("warpFactor", "Warp factor", 1.0);
 	public final Input<Double> pseudocountInput = new Input<>("pseudocount", "Parsimony pseudocount", 0.1);
 	public final Input<Alignment> dataInput = new Input<>("data", "Multiple sequence alignment for computing parsimony scores", Input.Validate.REQUIRED);
 	
@@ -25,7 +25,6 @@ public class ParsimonyTreeGuider extends TreeGuider {
 
     double minScore;
     double maxScore;
-    double baseFactor = 0.9;
     double warpfactor;
     
     
@@ -106,7 +105,9 @@ public class ParsimonyTreeGuider extends TreeGuider {
     	
     	// Larger warp factors correspond to greater weight behind parsimony scores
     	delta += Math.log(warpfactor);
+    	//System.out.println(" warp " + warpfactor + "  ->  " + Math.exp(delta));
     	warpfactor = Math.exp(delta);
+    	
 	}
 
     
@@ -126,7 +127,7 @@ public class ParsimonyTreeGuider extends TreeGuider {
 			double newScore = score;
 			// if (maxScore != minScore) newScore = 1 - (score - minScore) / (maxScore - minScore) + pseudocount;
 			if (maxScore != minScore) newScore = (score - minScore) / (maxScore - minScore) + pseudocount;
-			newScore = Math.pow(baseFactor, warpfactor*newScore);
+			newScore = Math.exp(warpfactor*newScore);
 			scoreSum += newScore;
 			probabilities[i] = newScore;
     	}
@@ -137,8 +138,11 @@ public class ParsimonyTreeGuider extends TreeGuider {
     	for (int i = 0; i < neighbours.size(); i ++) {
     		if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
 			else {
-	    		cumSum += probabilities[i] / scoreSum;
-	    		probabilities[i] = cumSum;
+				if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+				else {
+		    		cumSum += neighbourScores.get(i) / scoreSum;
+		    		probabilities[i] = cumSum;
+				}
 			}
     	}
     	

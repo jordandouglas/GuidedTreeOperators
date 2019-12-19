@@ -354,7 +354,7 @@ public class IndependentMCMC extends MCMC {
 	// Returns the maximum clade probability difference between the two chains
 	protected double getMaxCladeDifference() throws IOException {
 		
-		
+		if (true) return 0;
 		double maximumCladePosteriorDelta = 0;
 		for (int i = 0; i < treeStorers.size(); i ++) {
 			
@@ -369,11 +369,14 @@ public class IndependentMCMC extends MCMC {
 			String fileName = logger1.getFileName();
 			CladeSet cladeSet1 = getCladeSet(fileName);
 			
+			
 			// Chain 2
 			TreeStoreLogger logger2 = chains[1].getTreeStoreLoggers(i);
 			fileName = logger2.getFileName();
 			CladeSet cladeSet2 = getCladeSet(fileName);
-
+			
+			
+			if (numTrees == 0) return 0;
 			numTreesTotal += numTrees;
 			
 
@@ -406,6 +409,7 @@ public class IndependentMCMC extends MCMC {
 			
 			
 			// Find maximum difference
+			//System.out.println("numTreesTotal: " + numTreesTotal);
 			for (String clade : cladeList.keySet()) {
 				
 				double delta = 0;
@@ -414,12 +418,14 @@ public class IndependentMCMC extends MCMC {
 				if (!cladeMap1.containsKey(clade)) {
 					double support = 1.0 * cladeMap2.get(clade)/numTreesTotal;
 					delta = support;
+					//System.out.println("2: " + support);
 				}
 				
 				// Clade only in chain 1
 				else if (!cladeMap2.containsKey(clade)) {
 					double support = 1.0 * cladeMap1.get(clade)/numTreesTotal;
 					delta = support;
+					//System.out.println("1: " + support);
 				}
 				
 				// Clade in both chains
@@ -427,8 +433,10 @@ public class IndependentMCMC extends MCMC {
 					double support1 = 1.0 * cladeMap1.get(clade)/numTreesTotal;
 					double support2 = 1.0 * cladeMap2.get(clade)/numTreesTotal;
 					delta = Math.abs(support1 - support2);
+					//System.out.println("Both: " + support1 + " - " + support2);
 				}
 
+				//System.out.println(clade + "|delta: " + delta);
 				if (delta > maximumCladePosteriorDelta) {
 					maximumCladePosteriorDelta = delta;
 				}
@@ -455,9 +463,12 @@ public class IndependentMCMC extends MCMC {
 		//Log.warning("Processing " + path);
 		MemoryFriendlyTreeSet srcTreeSet = new TreeAnnotator().new MemoryFriendlyTreeSet(path, 0);
 		srcTreeSet.reset();
+		
+		if (!srcTreeSet.hasNext()) return null;
+		
 		Tree tree = srcTreeSet.next();
 		CladeSet cladeSet1 = new CladeSet(tree);
-		numTrees = 0;
+		numTrees = 1;
 		while (srcTreeSet.hasNext()) {
 			tree = srcTreeSet.next();
 			cladeSet1.add(tree);

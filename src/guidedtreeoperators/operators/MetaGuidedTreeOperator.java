@@ -105,6 +105,7 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		
     	// Sample a neighbouring tree
     	final int proposedTreeNum = Randomizer.randomChoice(probabilitiesForward);
+    	if (proposedTreeNum >= treeGuider.getNeighbours().size()) return Double.NEGATIVE_INFINITY;
 		 
 		// original tree newick before
 		
@@ -151,9 +152,13 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 	
 	@Override
 	public void optimize(double logAlpha) {
-		lastOperator.optimize(logAlpha);
-		double delta = calcDelta(logAlpha);
-		treeGuider.optimize(delta);
+		
+		// Optimise either the guider or the operator
+		if (Randomizer.nextBoolean()) lastOperator.optimize(logAlpha);
+		else {
+			double delta = calcDelta(logAlpha);
+			//treeGuider.optimize(delta);
+		}
 	}
 	
 	@Override

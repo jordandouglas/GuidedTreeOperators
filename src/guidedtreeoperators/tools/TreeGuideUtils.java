@@ -19,12 +19,12 @@ public class TreeGuideUtils {
 	
 	
 	// Returns all the clades of a tree 
-	public static String[] getClades(Tree tree) {
+	public static synchronized String[] getClades(Tree tree) {
 		
 		
 		
 		// Reset string array, as opposed to reallocating memory
-		int numStrings = tree.getLeafNodeCount() - 2;
+		int numStrings = tree.getLeafNodeCount();
 		if (TreeGuideUtils.conditionalCladeStrings == null || TreeGuideUtils.conditionalCladeStrings.length != numStrings) {
 			TreeGuideUtils.conditionalCladeStrings = new String[numStrings];
 		}
@@ -32,6 +32,8 @@ public class TreeGuideUtils {
 		
 		TreeGuideUtils.stringIndex = 0;
 		TreeGuideUtils.getConditionalCladeString(tree.getRoot(), conditionalCladeStrings);
+		
+		
 		return conditionalCladeStrings;
 		
 
@@ -47,7 +49,7 @@ public class TreeGuideUtils {
 	// 		0,1|0,1,3 and 0,1,3|0,1,2,3
 	// These are also sorted across the split, so it will never be
 	//		3,4,5|0,1,2
-	private static List<Integer> getConditionalCladeString(Node node, String[] strings) {
+	private static synchronized List<Integer> getConditionalCladeString(Node node, String[] strings) {
 
 		
 		// Return a string of the current node label
@@ -123,12 +125,12 @@ public class TreeGuideUtils {
 	
 	// Returns a unique identifier of the tree topology
 	// The identifier will not describe branch lengths or other meta data, topology only.
-	public static String serialiseNode(Node node) {
+	public static synchronized String serialiseNode(Node node) {
 		TreeGuideUtils.dummy[0] = 1;
 		return serialiseNode(node, dummy);
 	}
 	
-    private static String serialiseNode(Node node, int[] maxNodeInClade) {
+    private static synchronized String serialiseNode(Node node, int[] maxNodeInClade) {
         StringBuilder buf = new StringBuilder();
 
         if (!node.isLeaf()) {

@@ -27,7 +27,7 @@ public class TreeGuider extends BEASTObject {
 	protected static final int MAX_CACHE_SIZE = 100000;
 	
 	
-	final long N_STATES_UNTIL_OPTIMISATION_CEASES = 100000000;
+	final long N_STATES_UNTIL_OPTIMISATION_CEASES = 1000000;
 	long totalNStates = 0;
 	LinkedHashMap<String, Double> scoreCache;
 		
@@ -132,11 +132,29 @@ public class TreeGuider extends BEASTObject {
 	// Iterates through all neighbours, and normalises their scores to return a cumulative
 	// probability array
 	public double[] getProposalProbabilities() {
+		
 		if (neighbours.size() == 0) return null;
+		
 		double[] probabilities = new double[neighbours.size()];
+		
+		
+		double scoreSum = 0;
 		for (int i = 0; i < neighbours.size(); i ++) {
-			probabilities[i] = (i + 1.0) / neighbours.size();
+			scoreSum += neighbourScores.get(i);
 		}
+
+		
+		// Convert scores into a cumulative probability array
+		double cumSum = 0;
+		for (int i = 0; i < neighbours.size(); i ++) {
+			if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+			else {
+				cumSum += neighbourScores.get(i) / scoreSum;
+				probabilities[i] = cumSum;
+			}
+		}
+		
+		
 		return probabilities;
 	}
 	

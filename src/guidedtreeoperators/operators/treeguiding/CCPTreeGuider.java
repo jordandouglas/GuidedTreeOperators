@@ -21,8 +21,12 @@ public class CCPTreeGuider extends TreeGuider {
 	final public Input<List<Function>> paramsInput = new Input<>("param",
             "Parameters which much have an ESS above some threshold before this operator begins optimisation.",
             new ArrayList<>(), Validate.OPTIONAL);
+	
 	final public Input<Double> ESSminInput = new Input<>("ESS", "The ESS of each of the provided parameters must"
 			+ "exceed this threshold before training begins", 50.0);
+	
+	final public Input<Boolean> moderateProbsInput = new Input<>("moderate",
+            "Use the clade posterior probabilities [false], or 0.5 - abs(p - 0.5) [true], to target clades which have intermediate values",  false);
 	
 	
 	List<List<Double>> traces;
@@ -32,11 +36,11 @@ public class CCPTreeGuider extends TreeGuider {
 	ESS ESSutil = new ESS();
 	
 	LinkedHashMap<String, Integer> treePosteriorDistributionMap;
-	double scoreSum = 0;
 	double maxLogProb = Double.NEGATIVE_INFINITY;
 	long totalNClades = 0;
 	boolean hasConverged = false;
 	boolean stopTraining = false;
+	boolean moderateProbs = false;
 	
 	long numStatesSinceConvergence = 0;
 	
@@ -62,6 +66,7 @@ public class CCPTreeGuider extends TreeGuider {
     	
     	parameters = paramsInput.get();
     	ESSmin = ESSminInput.get();
+    	moderateProbs = moderateProbsInput.get();
     	
     	if (parameters.size() > 0) {
     		traces = new ArrayList(parameters.size());
@@ -94,7 +99,6 @@ public class CCPTreeGuider extends TreeGuider {
     	}
     	*/
     	// Clear the score cache every time during the training process
-    	scoreSum = 0;
     	maxLogProb = Double.NEGATIVE_INFINITY;
     	//if (totalNStates <= N_STATES_UNTIL_OPTIMISATION_CEASES) scoreCache.clear(); 
     	super.resetNeighbours();
@@ -179,7 +183,6 @@ public class CCPTreeGuider extends TreeGuider {
     	// Increment the posterior distribution of trees by the state number difference since last caching
     	//String newick = TreeGuideUtils.serialiseNode(tree.getRoot());
     	
-    	
 	}
 
     
@@ -208,14 +211,24 @@ public class CCPTreeGuider extends TreeGuider {
 	    		String clade = clades[i];
 	    		if (clade == "" || clade == null) continue;
 	    		
-	    		int cladeCount =    treePosteriorDistributionMap.containsKey(clade) ?
-	    							treePosteriorDistributionMap.get(clade) + 1:
-	    							1;
+	    		double cladeCount =  treePosteriorDistributionMap.containsKey(clade) ?
+	    							 treePosteriorDistributionMap.get(clade) + 1:
+	    							 1;
+	    		
+	    		if (moderateProbs) {
+	    			cladeCount = 0.5 - Math.abs(cladeCount/totalNClades - 0.5);
+	    		}
+	    		
 	    		
 	    		//score += Math.log(cladeCount) - Math.log(totalNStates);
 	    		//score += Math.log(1.0 * cladeCount / totalNClades);
-	    		score += Math.log(1.0 * cladeCount) - Math.log(totalNClades);
+	    		double CCP = Math.log(cladeCount);
 	    		//scoreSum *= 1.0 * cladeCount / totalNClades;
+	    		
+	    		
+
+	    		
+	    		score += CCP;
 	    		
 	
 	    		if (stopTraining) scoreCache.put(newick, score);
@@ -236,7 +249,6 @@ public class CCPTreeGuider extends TreeGuider {
 		}
     	
 		maxLogProb = Math.max(maxLogProb, score);
-		scoreSum += score;
 		
 		return score;
 		
@@ -276,13 +288,14 @@ public class CCPTreeGuider extends TreeGuider {
     	}
     	
     	
-    	
-    	
     	// Convert CCP counts into a cumulative probability array
     	double cumSum = 0;
     	for (int i = 0; i < neighbours.size(); i ++) {
-    		cumSum += probabilities[i] / scoreSum;
-			probabilities[i] = cumSum;
+    		if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+			else {
+	    		cumSum += probabilities[i] / scoreSum;
+	    		probabilities[i] = cumSum;
+			}
     	}
     	
     	

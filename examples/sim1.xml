@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="consoperators:beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="BEAST v2.5.0" version="2.5">
+
+	<!-- Data simulated from state 
+	Sample	BirthRate	kappa	freqParameter.1	freqParameter.2	freqParameter.3	freqParameter.4	ucldStdev	rate.mean	rate.variance	rate.coefficientOfVariation	Tree.height	Tree.treeLength	rates.1	rates.2	rates.3	rates.4	rates.5	rates.6	rates.7	rates.8	rates.9	rates.10	rates.11	rates.12	rates.13	rates.14	rates.15	rates.16	rates.17	rates.18	rates.19	rates.20	rates.21	rates.22	rates.23	rates.24	rates.25	rates.26	rates.27	rates.28	rates.29	rates.30	rates.31	rates.32	rates.33	rates.34	rates.35	rates.36	rates.37	rates.38	rates.39	rates.40	rates.41	rates.42	rates.43	rates.44	rates.45	rates.46	rates.47	rates.48	rates.49	rates.50	rates.51	rates.52	rates.53	rates.54	rates.55	rates.56	rates.57	rates.58	rates.59	rates.60	rates.61	rates.62	rates.63	rates.64	rates.65	rates.66	rates.67	rates.68	rates.69	rates.70	rates.71	rates.72	rates.73	rates.74	rates.75	rates.76	rates.77	rates.78	rates.79	rates.80	rates.81	rates.82	rates.83	rates.84	rates.85	rates.86	rates.87	rates.88	rates.89	rates.90	rates.91	rates.92	rates.93	rates.94	rates.95	rates.96	rates.97	rates.98	goodTree
+	0	4.06156695279558	0.363354231862144	0.168148474413978	0.238597536223388	0.35489223819861	0.238361751164023	0.455628150190311	1.01619514367038	0.258923170351226	0.517870268345485	0.704555767774584	12.5980596158279	1.08542918563446	1.54087522945126	0.44989997030287	1.20719668895078	0.539815087079809	3.23108021034429	1.38837153923864	1.92929471202592	1.13519908040932	1.80618480215428	0.880691261448104	0.615034297676064	0.761348249246797	0.771053783715888	1.14346599060853	1.33506799245412	0.863429352925017	1.07680698626388	1.50184382655037	0.537645369276831	0.688425807031785	2.50041263185856	1.21131036184883	0.492069257882995	0.933921443894741	1.39931753752851	0.635928365951283	0.802942503866248	0.56603570692639	1.72264724442692	0.961922177289846	0.6881388004245	1.05289808044897	1.28851179839034	0.642548560417138	1.2455138005385	0.978372236962674	0.309907857872449	1.48536601436389	0.578541607823385	0.60562559098185	1.12728821721976	0.770337149379389	1.19789200091036	2.18275110880463	0.456334508875837	0.949479024775906	0.946533736595032	0.948138082963725	1.30199770434961	0.688537753568406	1.04675401921117	0.828729023437922	0.725980663945314	1.1130913303477	0.992885084989639	1.99435512960911	0.712643419480166	0.885901526424648	1.26918798319184	0.690874217550467	1.26604337886121	1.49322531988312	0.534590732101989	2.28079883478775	0.612166921293402	0.658688180637057	0.514634244659826	0.438810489893917	0.55951110780158	0.939618347867676	0.635657071579879	0.547072045979077	1.37100868120179	0.567255008720589	0.426129532083702	0.595424630184416	1.6031760868802	0.611452765131797	0.49227664227906	0.446680701739344	0.726283069193933	0.701015158273014	1.27956907233463	0.461948100016818	0.561708112033221	0.694907158525601	0.820077794421183	0.967725493692786	0.579133264316608	1.23298427861136	1.72130726538071	0.6504266572897	1.58301529481148	0.501107892308336	0.456654022182477	0.655073033316775	0.68513813962037	TRUE
+	-->
+
+
+
+	<data spec='Alignment' id="calsim">
+    <sequence id='Sequence51' spec='beast.evolution.alignment.Sequence' taxon='40' value='TCTCATTAAGGTTTGTCTGCGGTGGATGCGTAGCGGCCCGATTCATCTCCCTCTAGGCTTCCGGTCGGGCGACTAGTGCCCATTCCTAGTCGGTGTGTCGGCAGGTGCGCTGGTTTTTCCACCTTAGTGCGGACGGCCACTCCATCGAAATTGCCGCCGCTGATTAGTTTGGACTGGTTGAGCCTG'/>
+    <sequence id='Sequence52' spec='beast.evolution.alignment.Sequence' taxon='39' value='TCTCATTTGGGATTGTCTGCGTTGGATGCGGTCCGGGCCGACTCATGTCCCGCTACAGTTCCGGTCGCGCGACGTGAGCCCATTCCGAGACGGGATCTGGGCACGTGAGCGGGATTTTCCACCTGAGTGCGGACCGCGACTGCATCGCAATGGCCGCCCCTGTTTACTTTGGACTGGTTGAGCGTC'/>
+    <sequence id='Sequence53' spec='beast.evolution.alignment.Sequence' taxon='49' value='ACTCGTTTGGGGGAGCGGTAGGTTCAAGGTGTCCCGGGGCCGATATCTCGCTGTAGAGTAGGGAGCGATCGGAACGGGCGGATTCGGGCCTACGAGCTTGGCGGTAGAGCGTTCTTTGCCAAATGCACGCTGTCCGTGTGGCTGTCGGCATCGGCGCCTCTTTTCTATTGGGCACGCGATCGCTTT'/>
+    <sequence id='Sequence54' spec='beast.evolution.alignment.Sequence' taxon='43' value='ACTCGTTGGGGGAGGGGGGAGGTTCGAGGTGTCGCGGGGCGGATATCTCGCTGTACAGCTAGGAGCGATCGGACCGTGCGAATTCGGGCCTACGAGCTTGGCGCTAGGGCGTTCTTGGCCACATGCACGCCGGCCGTCTGTCTCTCGGCATGGGCGCCTCTTTGGTATTGGGCACCAGATAGCTTG'/>
+    <sequence id='Sequence55' spec='beast.evolution.alignment.Sequence' taxon='47' value='TATAAATTTGAGGGAGCGCAAGTTCATCCGCTTCGGTGCTGTAGACTTCGCGGTACATGGGGGGGAGTGTTACGTGTGTACTTGGTAGCGTGGACTTTAGGCGCAGGAGCTGTGGCGGCCTCGTGGCCGGGGTCCGCGGCGCCCGGGGAATGGAGTGGGCGATTGTAATGATTCCGGGAGGAAGTA'/>
+    <sequence id='Sequence56' spec='beast.evolution.alignment.Sequence' taxon='27' value='GAGACAAGTGCGGTATGCGTAGGTGATGCTCACGGGCGCTTCATATTTCCCGGTACGCTTCGGGAGGCGCTGGCTCAGTAATTAGCTACTCGCAGTTTAGGCGGTGCAGTCGTTTTGGCAGCCTGTGGCGGTAGCGCTTGCCAGCACCAATGGGCGGGGCTGCGGCGATAGTGCGAGAGGGTTGTC'/>
+    <sequence id='Sequence57' spec='beast.evolution.alignment.Sequence' taxon='2' value='GATCAGTGTACGGGCTGGGTAGGGCAGGCGCTCCGTCGTTTCATAGGCCCCGGCAGAGGTGCGAGCGAGGGAGCTCCGTAGGTAGCACGTGGGTAGCTAGGCTGACTTGGTTTTTTTGCGGCCTGCACGGGGTGCCGCTCGCCCTCGCTACTGGCGATCCTGCCGTGCTGGGACCGGAGGGTAGTA'/>
+    <sequence id='Sequence58' spec='beast.evolution.alignment.Sequence' taxon='8' value='GATCACTGTACGGGCTGGGTAGGGCATGCGCTCCGTCGCTCCATAGGCCCCGGTTGAGTTGCGAGCGAGGGAGCTCCGTAGGTAGCACGTTGGTAGCTAGGATGACTAGCTTTTTTTCCCTCCTGCTCGGGGTGCCGCTCGCCCGCGCTAATGGCGATCCTGCCGTGCTGGGACCGGAGGGTAGTA'/>
+    <sequence id='Sequence59' spec='beast.evolution.alignment.Sequence' taxon='36' value='GGTGGGTGTTCCGGCTGGGTCGGGCAGGCGGTCCGTCGCTGTATAGGCCGTGGTAGAGATGCGAGCGTGGGACCTACGTTGGTAGAACGGGGATAGCGAGGGTGACGAGGGTTTGTTGCCTCCTGAGCGAGGTGACGCTCGCCCTCGTGACTGGCGAGGCTGCGGTGCTGGAACCGGAGGGTACTA'/>
+    <sequence id='Sequence60' spec='beast.evolution.alignment.Sequence' taxon='12' value='AATGGAGGGGCGGACGCGGTATTTCCGGCTGTTCGGCCATCCATCGGGCCCTGTAGCGGTGCTGGGACGCTCTCTCAGTCACGCCGTGGTCGTGCTCGAGTCGTGCCCGCTGTTTTAGCAACTTGCGCCCTGTTCCCTTCCAAGCCGCTTTTGCCGTCGAAGTCGTCCTGGGAGCCTTGGAGCTTA'/>
+ 
+	</data>
+    <map name="Uniform" >beast.math.distributions.Uniform</map>
+    <map name="Exponential" >beast.math.distributions.Exponential</map>
+    <map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+    <map name="Normal" >beast.math.distributions.Normal</map>
+    <map name="Beta" >beast.math.distributions.Beta</map>
+    <map name="Gamma" >beast.math.distributions.Gamma</map>
+    <map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+    <map name="prior" >beast.math.distributions.Prior</map>
+    <map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+    <map name="OneOnX" >beast.math.distributions.OneOnX</map>
+    <map name="Dirichlet" >beast.math.distributions.Dirichlet</map>
+
+<run spec="inference.IndependentMCMC" id="mcmc" rhatLogger="@tracelog" convergedFor="3" threshold="0.05" checkEvery="100000">
+
+	<treeStorer id="independentMCMCLogger" spec="inference.TreeStoreLogger" fileName="store_1.$(tree).$(chain).trees" logEvery="10000" mode="tree">
+		<log spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@RelaxedClock.c:calsim" tree="@Tree.t:calsim"/>
+	</treeStorer>
+
+
+
+        <state id="state" storeEvery="5000">
+            <tree id="Tree.t:calsim" name="stateNode">
+                <taxonset id="TaxonSet.calsim" spec="TaxonSet">
+                    <alignment idref="calsim"/>
+                </taxonset>
+            </tree>
+    <parameter id="ucldStdev.c:calsim" lower="0.0" name="stateNode">0.2</parameter>
+        <stateNode id="rates.c:calsim" spec="parameter.RealParameter">1.0</stateNode>
+        <parameter id="BirthRate.t:calsim" name="stateNode">2.0</parameter>
+        <parameter id="kappa.t:calsim" lower="0.0" name="stateNode">2.0</parameter>
+        <parameter id="freqParameter.t:calsim" dimension="4" name="stateNode">0.25</parameter>
+        </state>
+
+        <init id="RandomTree.t:calsim" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:calsim" taxa="@calsim">
+            <populationModel id="ConstantPopulation0.t:calsim" spec="ConstantPopulation">
+                <parameter id="randomPopSize.t:calsim" name="popSize">1.0</parameter>
+            </populationModel>
+        </init>
+
+        <distribution id="posterior" spec="util.CompoundDistribution">
+            <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="YuleModel.t:calsim" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@BirthRate.t:calsim" tree="@Tree.t:calsim"/>
+            <prior id="BirthRatePrior.t:calsim" name="distribution" x="@BirthRate.t:calsim">
+                <LogNormal id="LogNormalDistribution1" S="0.2"  M="1.8" meanInRealSpace="false" name="distr">
+                </LogNormal>
+            </prior>
+
+            <prior id="FrequencyPrior.t:calsim" name="distribution" x="@freqParameter.t:calsim">
+                <Dirichlet id="Dirichlet1" alpha="10 10 10 10" name="distr"/>
+            </prior>
+
+
+            <prior id="KappaPrior.t:calsim" name="distribution" x="@kappa.t:calsim">
+                <LogNormal id="LogNormalDistribution0" S="0.6"  M="-1.0" meanInRealSpace="false"  name="distr"/>
+            </prior>
+
+            <prior id="RatePrior.t:calsim" name="distribution" x="@rates.c:calsim">
+                <LogNormal id="LogNormalDistribution2" S="@ucldStdev.c:calsim"  M="1.0" meanInRealSpace="true" name="distr"/>
+            </prior>
+
+		<prior id="ucldStdevPrior.c:calsim" name="distribution" x="@ucldStdev.c:calsim">
+			<Gamma name="distr">
+				<parameter id="branchRatesStdevPriorAlpha.Species" estimate="false" name="alpha">0.5396</parameter>
+				<parameter id="branchRatesStdevPriorBeta.Species" estimate="false" name="beta">0.3819</parameter>
+			</Gamma>
+		</prior>
+
+            </distribution>
+
+            <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+                <distribution id="treeLikelihood.calsim" spec="ThreadedTreeLikelihood" data="@calsim" tree="@Tree.t:calsim">
+                    <siteModel id="SiteModel.t:calsim" spec="SiteModel">
+                        <parameter id="mutationRate.t:calsim" estimate="false" name="mutationRate">1.0</parameter>
+                        <parameter id="gammaShape.t:calsim" estimate="false" name="shape">1.0</parameter>
+                        <parameter id="proportionInvariant.t:calsim" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                        <substModel id="hky.t:calsim" spec="HKY" kappa="@kappa.t:calsim">
+                            <frequencies id="estimatedFreqs.t:calsim" spec="Frequencies" frequencies="@freqParameter.t:calsim"/>
+                        </substModel>
+                    </siteModel>
+                    <branchRateModel id="RelaxedClock.c:calsim" spec="beast.evolution.branchratemodel.UCRelaxedClockModel"
+                                     rates="@rates.c:calsim" tree="@Tree.t:calsim" distr="@LogNormalDistribution2">
+                        <parameter id="ucldMean.c:calsim" estimate="false" name="clock.rate">1.0</parameter>
+                    </branchRateModel>
+                </distribution>
+            </distribution>
+        </distribution>
+
+	
+
+	<operator id="PosteriorGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0" >
+		<guider id="CCPTreeGuider" spec="guidedtreeoperators.operators.treeguiding.CCPTreeGuider" ESS="100.0" moderate="true"  prob="1">
+			<param idref="posterior"/>
+		</guider>
+		<op id="PosteriorNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+ 	</operator>
+
+
+	<operator id="RatesGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
+		<guider id="RatesTreeGuider" spec="guidedtreeoperators.operators.treeguiding.BranchRateTreeGuider" prob="1" warpFactor="2" rates="@rates.c:calsim" sigma="@ucldStdev.c:calsim"></guider>
+		<op id="RatesNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+ 	</operator>
+	
+
+	<operator id="MDSGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="10">
+		<guider id="DistanceTreeGuider" spec="guidedtreeoperators.operators.treeguiding.DistanceTreeGuider" prob="1">
+			<weights id="AlignmentDistanceProvider" spec="guidedtreeoperators.operators.treeguiding.AlignmentDistanceProvider" tree="@Tree.t:calsim" data="@calsim" dimension="5">
+				<distance spec="beast.evolution.alignment.distance.F84Distance"/>
+			</weights>
+ 		</guider>
+		<op id="MDSNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+ 	</operator>
+
+
+	<operator id="ParsimonyGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
+		<guider id="ParsimonyTreeGuider" spec="guidedtreeoperators.operators.treeguiding.ParsimonyTreeGuider" pseudocount="0.5" data="@calsim" prob="1"/>
+		<op id="ParsimonyNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+ 	</operator>
+
+
+	<operator id="NNIrate" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
+		<guider spec="guidedtreeoperators.operators.treeguiding.TreeGuider" prob="0.1"/>
+		<op id="NNIrateOp" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+ 	</operator>
+
+
+
+        <operator id="InternalnodesOperator.c:dna" spec="InConstantDistanceOperator" 
+                  twindowSize="0.017"  tree="@Tree.t:calsim" rates="@rates.c:calsim"  weight="10.0"/>
+
+        <operator id="RootOperator1.c:dna" spec="SimpleDistance"
+                  twindowSize="0.055" tree="@Tree.t:calsim" rates="@rates.c:calsim"  weight="1.0"/>
+
+        <operator id="RootOperator2.c:dna" spec="SmallPulley"
+                  dwindowSize="0.038" tree="@Tree.t:calsim" rates="@rates.c:calsim"  weight="1.0"/>
+
+        <operator id="RootOperator3.c:dna" spec="BigPulley"
+                  twindowSize="0.017" dwindowSize="0.032" tree="@Tree.t:calsim" rates="@rates.c:calsim"  weight="1.0"/>
+
+        <operator id="RatesRandomWalk.c:calsim" spec="RealRandomWalkOperator" parameter="@rates.c:calsim" weight="10.0" windowSize="0.1"/>
+
+        <operator id="RatesSwapOperator.c:calsim" spec="SwapOperator" parameter="@rates.c:calsim" weight="10.0"/>
+        
+        <operator id="RatesScaleOperator.c:calsim" spec="ScaleOperator" parameter="@rates.c:calsim" weight="10.0"/>
+        
+        <operator id="YuleTreeScaler.t:calsim" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:calsim" weight="10.0"/>
+
+        <operator id="YuleTreeRootScaler.t:calsim" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:calsim" weight="5.0"/>
+
+        <operator id="YuleBirthRateScaler.t:calsim" spec="ScaleOperator" parameter="@BirthRate.t:calsim" scaleFactor="0.75" weight="10.0"/>
+
+        <operator id="YuleModelUniformOperator.t:calsim" spec="Uniform" tree="@Tree.t:calsim" weight="10.0"/>
+
+        <operator id="YuleModelSubtreeSlide.t:calsim" spec="SubtreeSlide" tree="@Tree.t:calsim" weight="5.0"/>
+
+        <operator id="YuleModelhNarrow.t:calsim" spec="Exchange" tree="@Tree.t:calsim" weight="0.5"/>
+
+        <operator id="YuleModelWide.t:calsim" spec="Exchange" isNarrow="false" tree="@Tree.t:calsim" weight="5.0"/>
+
+        <operator id="KappaScaler.s:dna" spec="ScaleOperator" parameter="@kappa.t:calsim" scaleFactor="0.5" weight="0.2"/>
+
+        <operator id="FrequenciesExchanger.s:dna" spec="DeltaExchangeOperator" delta="0.01" weight="0.2">
+            <parameter idref="freqParameter.t:calsim"/>
+        </operator>
+
+        <operator id="ucldStdevScaler.c:calsim" spec="consoperators.UcldScalerOperator"
+                  rates="@rates.c:calsim" stdev="@ucldStdev.c:calsim" distr="@LogNormalDistribution2" scaleFactor="0.5" weight="10.0"/>
+
+
+	<operator id="branchRatesStdevScaler.Species" spec="ScaleOperator" parameter="@ucldStdev.c:calsim" scaleFactor="0.55" weight="3.0"/>
+
+        <logger id="tracelog" fileName="calibratedN50_1.$(chain).log" logEvery="5000" model="@posterior" sanitiseHeaders="true" sort="smart">
+            <log idref="posterior"/>
+            <log idref="likelihood"/>
+            <log idref="prior"/>
+            <log idref="treeLikelihood.calsim"/>
+            <log id="TreeLength.t:calsim" spec="beast.evolution.tree.TreeStatLogger" tree="@Tree.t:calsim"/>
+            <log id="rate.c:calsim" spec="beast.evolution.branchratemodel.RateStatistic" branchratemodel="@RelaxedClock.c:calsim" tree="@Tree.t:calsim"/>
+            <log idref="kappa.t:calsim"/>
+            <log idref="freqParameter.t:calsim"/>
+            <log idref="ucldStdev.c:calsim"/>
+            <log idref="BirthRate.t:calsim"/>
+	    <!--<log idref="rates.c:calsim"/>-->
+        </logger>
+
+        <logger id="screenlog" logEvery="100000">
+            <log idref="posterior"/>
+            <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
+            <log idref="likelihood"/>
+	    <log idref="ucldStdev.c:calsim"/>
+	    <log spec="beast.evolution.tree.TreeStatLogger" tree="@Tree.t:calsim"/>
+	    <log idref="BirthRate.t:calsim"/>
+            <log idref="prior"/>
+        </logger>
+	
+        <logger id="treelog.t:calsim" fileName="calibratedN50_1.$(chain).trees" logEvery="1000000" mode="tree">
+            <log id="TreeWithMetaDataLogger.t:calsim" spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@RelaxedClock.c:calsim" tree="@Tree.t:calsim"/>
+        </logger>
+	
+    </run>
+
+
+</beast>
+
+
+

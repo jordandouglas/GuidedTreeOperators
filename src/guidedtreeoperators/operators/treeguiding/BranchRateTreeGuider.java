@@ -15,7 +15,7 @@ import beast.math.distributions.ParametricDistribution;
 public class BranchRateTreeGuider extends TreeGuider {
 	
 	
-	public final Input<Double> warpFactorInput = new Input<>("warpfactor", "Warp factor", 1.0);
+	public final Input<Double> warpFactorInput = new Input<>("warpFactor", "Warp factor", 1.0);
 	public final  Input<RealParameter> rateInput = new Input<>("rates", "the rates associated with nodes in the tree for sampling of individual rates among branches.", Input.Validate.REQUIRED);
 	public final  Input<RealParameter> sigmaInput = new Input<>("sigma", "lognormal clock SD associated with rates. If unspecified, exponential clock model is assumed.");
     
@@ -42,7 +42,7 @@ public class BranchRateTreeGuider extends TreeGuider {
 		warpfactor = warpFactorInput.get();
 		
 		rateDistribution = sigma == null ? RateDistribution.exponential : RateDistribution.lognormal;
-		if (rateDistribution == RateDistribution.exponential) distribution  = new ExponentialDistributionImpl(1);
+		if (rateDistribution ==  RateDistribution.lognormal) distribution = new ExponentialDistributionImpl(1);
 		
 		
 		super.initAndValidate();
@@ -59,10 +59,13 @@ public class BranchRateTreeGuider extends TreeGuider {
 	protected void resetNeighbours() {
 		
 		// Update lognormal distribution
-		if (rateDistribution == RateDistribution.lognormal) {
+		if ( rateDistribution == RateDistribution.lognormal) {
 			
-            final double M = Math.log(1) - (0.5 * sigma.getValue() * sigma.getValue());
-            distribution = new NormalDistributionImpl(M, sigma.getValue());
+			double s = 0.5;
+			final double M = Math.log(1) - (0.5 * sigma.getValue() * sigma.getValue());
+			distribution = new NormalDistributionImpl(M, sigma.getValue());
+           // final double M = Math.log(1) - (0.5 * sigma.getValue() * sigma.getValue());
+           // distribution = new NormalDistributionImpl(M, sigma.getValue());
 			
 		}
 		
@@ -72,11 +75,12 @@ public class BranchRateTreeGuider extends TreeGuider {
 	}
 	
 	
-	// Calculates Fitch parsimony score of the tree
+	// Calculates score of the tree
 	@Override
 	protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
 		
 		double score = 0;
+		
 		
 		// The score is proportional to the cdf of the rates of the affected branches
 		double rateFrom = rates.getArrayValue(nodeBeingMovedNr);
@@ -96,7 +100,7 @@ public class BranchRateTreeGuider extends TreeGuider {
 		if (cdfFrom > 0.5) cdfFrom = 1 - cdfFrom;
 		if (cdfTo > 0.5) cdfTo = 1 - cdfTo;
 		
-		score = cdfFrom; //Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
+		score = Math.exp(warpfactor * cdfFrom); //Math.pow(cdfFrom, 1) * Math.pow(cdfTo, warpfactor);
 		
 		scoreSum += score;
 		
@@ -108,10 +112,8 @@ public class BranchRateTreeGuider extends TreeGuider {
 	
 	@Override
 	public void optimize(double delta) {
-		
-		
-		//delta += Math.log(warpfactor);
-		//warpfactor = Math.exp(delta);
+		delta += Math.log(warpfactor);
+		warpfactor = Math.exp(delta);
 	}
 	
 	

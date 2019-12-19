@@ -18,10 +18,14 @@ public class DistanceTreeGuider extends TreeGuider {
 	
 	
 	public Input<DistanceProvider> weightsInput = new Input<>("weights", "Provide distances between clades (data, not tree based)", null, Input.Validate.OPTIONAL);
+	public final Input<Double> warpFactorInput = new Input<>("warpFactor", "Warp factor", 1.0);
+	
+	
 	
 	int scoreSum = 0;
 	private DistanceProvider weightProvider;
     int leafNodeCount = 0;
+    double warpfactor;
     DistanceProvider.Data weights[];
     
 
@@ -36,7 +40,7 @@ public class DistanceTreeGuider extends TreeGuider {
         if( weightProvider == null ) {
             weightProvider = DistanceProvider.uniform;
         }
-
+        warpfactor = warpFactorInput.get();
 		super.initAndValidate();
 	}
     
@@ -74,6 +78,17 @@ public class DistanceTreeGuider extends TreeGuider {
     	
 	}
     
+    
+    @Override
+	public void optimize(double delta) {
+    	
+    	// Larger warp factors correspond to greater weights behind distance scores
+    	delta += Math.log(warpfactor);
+    	//System.out.println(" warp " + warpfactor + "  ->  " + Math.exp(delta));
+    	warpfactor = Math.exp(delta);
+    	
+	}
+
 
     
     
@@ -82,6 +97,8 @@ public class DistanceTreeGuider extends TreeGuider {
     protected double computeUnnormalisedScore(Tree tree, String newick, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
         final double d = weightProvider.dist(weights[nodeBeingMovedNr], weights[nodeBeingMoveToNr]);
         double score = 1 / d;
+        score = Math.exp(warpfactor*score);
+        score = Math.min(score, 10E4); // Avoid infinity scores
         scoreSum += score;
         return score;
 	}
