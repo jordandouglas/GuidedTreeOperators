@@ -32,7 +32,7 @@
     <map name="OneOnX" >beast.math.distributions.OneOnX</map>
     <map name="Dirichlet" >beast.math.distributions.Dirichlet</map>
 
-<run spec="inference.IndependentMCMC" id="mcmc" rhatLogger="@tracelog" convergedFor="3" threshold="0.05" checkEvery="100000">
+<run spec="inference.IndependentMCMC" id="mcmc" rhatLogger="@tracelog" convergedFor="3" threshold="0.05" ESS="50" checkEvery="100000">
 
 	<treeStorer id="independentMCMCLogger" spec="inference.TreeStoreLogger" fileName="store_1.$(tree).$(chain).trees" logEvery="10000" mode="tree">
 		<log spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@RelaxedClock.c:calsim" tree="@Tree.t:calsim"/>
@@ -107,19 +107,27 @@
             </distribution>
         </distribution>
 
+
+
+	<operator id="BirthDeathWilsonBalding.t:dna" spec="WilsonBalding" tree="@Tree.t:calsim" weight="5.0"/>
+
+
+        <operator id="YuleModelhNarrow.t:calsim" spec="Exchange" tree="@Tree.t:calsim" weight="5"/>
 	
 
 	<operator id="PosteriorGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0" >
 		<guider id="CCPTreeGuider" spec="guidedtreeoperators.operators.treeguiding.CCPTreeGuider" ESS="100.0" moderate="true"  prob="1">
 			<param idref="posterior"/>
 		</guider>
-		<op id="PosteriorNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+		<op id="PosteriorNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="0" rates="@rates.c:calsim"/>
+		<op id="PosteriorWilsonBaldingRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedWilsonBalding" weight="10" rates="@rates.c:calsim"/>
  	</operator>
 
 
 	<operator id="RatesGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
 		<guider id="RatesTreeGuider" spec="guidedtreeoperators.operators.treeguiding.BranchRateTreeGuider" prob="1" warpFactor="2" rates="@rates.c:calsim" sigma="@ucldStdev.c:calsim"></guider>
-		<op id="RatesNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+		<op id="RatesNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="0" rates="@rates.c:calsim"/>
+		<op id="RatesWilsonBaldingRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedWilsonBalding" weight="10" rates="@rates.c:calsim"/>
  	</operator>
 	
 
@@ -130,18 +138,21 @@
 			</weights>
  		</guider>
 		<op id="MDSNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+		<op id="MDSWilsonBaldingRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedWilsonBalding" weight="10" rates="@rates.c:calsim"/>
  	</operator>
 
 
 	<operator id="ParsimonyGuider" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
 		<guider id="ParsimonyTreeGuider" spec="guidedtreeoperators.operators.treeguiding.ParsimonyTreeGuider" pseudocount="0.5" data="@calsim" prob="1"/>
 		<op id="ParsimonyNarrowExchangeRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+		<op id="ParsimonyWilsonBaldingRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedWilsonBalding" weight="10" rates="@rates.c:calsim"/>
  	</operator>
 
 
-	<operator id="NNIrate" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="0">
-		<guider spec="guidedtreeoperators.operators.treeguiding.TreeGuider" prob="0.1"/>
+	<operator id="NNIrate" spec="guidedtreeoperators.operators.MetaGuidedTreeOperator" tree="@Tree.t:calsim" weight="10">
+		<guider spec="guidedtreeoperators.operators.treeguiding.TreeGuider"/>
 		<op id="NNIrateOp" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedNarrowExchange" weight="10" rates="@rates.c:calsim"/>
+		<op id="NNIrateWilsonBaldingRates" spec="guidedtreeoperators.operators.guidedtreeoperators.GuidedWilsonBalding" weight="10" rates="@rates.c:calsim"/>
  	</operator>
 
 
@@ -174,7 +185,6 @@
 
         <operator id="YuleModelSubtreeSlide.t:calsim" spec="SubtreeSlide" tree="@Tree.t:calsim" weight="5.0"/>
 
-        <operator id="YuleModelhNarrow.t:calsim" spec="Exchange" tree="@Tree.t:calsim" weight="0.5"/>
 
         <operator id="YuleModelWide.t:calsim" spec="Exchange" isNarrow="false" tree="@Tree.t:calsim" weight="5.0"/>
 

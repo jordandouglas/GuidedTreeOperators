@@ -1,6 +1,9 @@
 package guidedtreeoperators.operators.guidedtreeoperators;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import beast.core.Input;
 import beast.core.parameter.RealParameter;
 import beast.evolution.tree.Node;
@@ -91,23 +94,25 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
 	
 	
 	@Override
-	public void getNeighbouringTrees(TreeGuider treeGuider, int treeIndex) {
-
-		boolean makingProposal = treeIndex >= 0 || treeGuider == null;
+	public int getNeighbouringTrees(TreeGuider treeGuider, int treeIndex) {
 		
-		// If this tree already has its neighbours cached, then return them
-		if (!makingProposal && false && neighbourCache.containsKey(tree)) {
-			return;
-		}
+		
+		// Assumes that treeIndices is sorted
+		// Is a proposal being made or are we generating all neighbours?
+		boolean makingProposal = treeIndex >= 0 && treeGuider == null;
+		boolean studyingTrees = treeGuider != null;
+		
 		
 		
 		// Copy the tree (topology only) if finding neighbours
 		// Use the original tree if making a proposal
 		Tree trevor = makingProposal ? tree : tree; // new Tree(tree.getRoot().toNewick(true));
-		if (!makingProposal) treeGuider.setTree(trevor);
+		if (studyingTrees) treeGuider.setTree(trevor);
     	
+		
+		int currentTreeIndex = 0;
+		
     	// Get all internal/root nodes which have grandchildren
-        int currentTreeIndex = 0;
         for (int i = trevor.getLeafNodeCount(); i < trevor.getNodeCount(); i++) {
         	
         	E = trevor.getNode(i);
@@ -139,7 +144,7 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
       	        		
       	        		exchangeNodes(A, C, D, E);
       	        		//System.out.println("Sampled " + getTreeSerial(tree));
-      	        		return;
+      	        		return -1;
       	        	}
 
       	        	
@@ -150,31 +155,40 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
       	        else {
       	        	
       	        
-					// Case 1: A is the first child of D
-					A = D.getChild(0);
-					B = D.getChild(1);
-					
-					// Temporarily rearrange the copied tree to get the neighbour
-	    			exchangeNodes(A, C, D, E);
-	    			treeGuider.addNeighbouringTree(trevor, B.getNr(), D.getNr());
-
-					// Restore the copied tree
-					exchangeNodes(A, C, E, D);
-					
-					
-					// Case 2: A is the second child of D
-					int originalANr = A.getNr();
-					A = D.getChild(0);
-					B = D.getChild(1);
-					if (A.getNr() == originalANr) {
-						System.out.println("Unexpected node positioning");
-						A = D.getChild(1);
-					}
-					exchangeNodes(A, C, D, E);
-					treeGuider.addNeighbouringTree(trevor, B.getNr(), D.getNr());
-					
-					// Restore the tree
-					exchangeNodes(A, C, E, D);
+      	        	// Are we studying these 2 trees?
+        			if (studyingTrees) {
+	      	        	
+	      	        	
+						// Case 1: A is the first child of D
+						A = D.getChild(0);
+						B = D.getChild(1);
+						
+						// Temporarily rearrange the copied tree to get the neighbour
+		    			exchangeNodes(A, C, D, E);
+	    				treeGuider.addNeighbouringTree(trevor, B.getNr(), C.getNr());
+	
+						// Restore the copied tree
+						exchangeNodes(A, C, E, D);
+						
+						
+						// Case 2: A is the second child of D
+						int originalANr = A.getNr();
+						A = D.getChild(0);
+						B = D.getChild(1);
+						if (A.getNr() == originalANr) {
+							System.out.println("Unexpected node positioning");
+							A = D.getChild(1);
+						}
+						exchangeNodes(A, C, D, E);
+						treeGuider.addNeighbouringTree(trevor, B.getNr(), C.getNr());
+						
+						// Restore the tree
+						exchangeNodes(A, C, E, D);
+						
+						
+						
+						
+        			}
 					
 					
       	        }
@@ -186,7 +200,7 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
         	
         }
     	
-        //if (!makingProposal) neighbourCache.put(tree, neighbours);
+        return currentTreeIndex;
 	    
 	}
 	
@@ -196,13 +210,6 @@ public class GuidedNarrowExchange extends GuidedTreeOperator {
         replace(p1, c1, c2);
         replace(p2, c2, c1);
     }
-	
-	
-	@Override
-	public void setProposal(Tree proposedTree) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 

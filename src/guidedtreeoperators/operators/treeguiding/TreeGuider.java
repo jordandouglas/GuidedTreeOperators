@@ -8,6 +8,7 @@ import java.util.Map;
 import beast.core.BEASTObject;
 import beast.core.Description;
 import beast.core.Input;
+import beast.core.Input.Validate;
 import beast.evolution.tree.Tree;
 import beast.util.Randomizer;
 import guidedtreeoperators.tools.TreeGuideUtils;
@@ -16,10 +17,13 @@ import guidedtreeoperators.tools.TreeGuideUtils;
 public class TreeGuider extends BEASTObject {
 	
 	final public Input<Double> neighbourSampleProbInput = new Input<>("prob", "Probability of a given neighbour being selected as a possible proposal (defaults to 1.0, all neighbours)", 1.0);
+	final public Input<Integer> neighbourSampleCountInput = new Input<>("count", "Average number of neighbours in neighbourhood to consider (defaults to -1, all neighbours)", -1);
 	
 	
 	
 	final int[] dummy = new int[1];
+	
+	List<Integer> neighbourhoodToConsider = new ArrayList<Integer>();
 	List<String> neighbours = new ArrayList<String>();
 	List<Double> neighbourScores = new ArrayList<Double>();
 	
@@ -35,6 +39,7 @@ public class TreeGuider extends BEASTObject {
 	Tree currentTree;
 	
 	double neighbourSampleProb;
+	double neighbourSampleCount;
 	
 	public TreeGuider() {
 		
@@ -50,6 +55,8 @@ public class TreeGuider extends BEASTObject {
 		
 		assert neighbourSampleProb >= 0;
 		assert neighbourSampleProb <= 1;
+		
+		neighbourSampleCount = neighbourSampleCountInput.get();
 		
 		
 		scoreCache = new LinkedHashMap<String, Double>() {
@@ -92,6 +99,7 @@ public class TreeGuider extends BEASTObject {
 	public List<String> getNeighbours(){
 		return neighbours;
 	}
+	
 
 	
 	// Resets the list of neighbours of the current tree
@@ -100,22 +108,60 @@ public class TreeGuider extends BEASTObject {
 		neighbourScores.clear();
 	}
 	
+	
+	
+
+	// Decided which neighbours to sample by index
+	public void sampleNeighbourhood(int numberOfNeighbours) {
+		
+		neighbourhoodToConsider = new ArrayList<>();
+		
+		
+		// Case 1: all neighbours are considered
+		if (neighbourSampleProb == 1 && neighbourSampleCount < 0) {
+			for (int i = 0; i < numberOfNeighbours; i ++) neighbourhoodToConsider.add(i);
+		}
+		
+		
+		// Case 2: binomially sample each neighbour with probability p
+		else if (neighbourSampleProb < 1) {
+			for (int i = 0; i < numberOfNeighbours; i ++) {
+				if (Randomizer.nextFloat() < neighbourSampleProb) neighbourhoodToConsider.add(i);
+			}
+		}
+		
+		
+		// Case 3: binomially sample each neighbour with probability p = n/numberOfNeighbours
+		else {
+			double p = neighbourSampleCount*1.0 / numberOfNeighbours;
+			for (int i = 0; i < numberOfNeighbours; i ++) {
+				if (Randomizer.nextFloat() < p) neighbourhoodToConsider.add(i);
+			}
+			
+		}
+		
+		//System.out.println("Sampled " + neighbourhoodToConsider.size() + " out of " + numberOfNeighbours);
+		
+		
+	}
+	
+
+	
+	
 	// Adds the neighbouring tree to the list of neighbours and computes its score
 	public void addNeighbouringTree(Tree neighbour, int nodeBeingMovedNr, int nodeBeingMoveToNr) {
+		
 		
 		
 		// Add newick to list
 		String newick = TreeGuideUtils.serialiseNode(neighbour.getRoot());
 		neighbours.add(newick);
 		
-		// With some probability, this neighbour will be ignored altogether
-		// It is important to increment the neighbour index anyway
-		if (Randomizer.nextFloat() < neighbourSampleProb) {
-			double score = computeUnnormalisedScore(neighbour, newick, nodeBeingMovedNr, nodeBeingMoveToNr);
-			neighbourScores.add(score);
-		}else {
-			neighbourScores.add(0.0);
-		}
+		// Compute score
+		double score = computeUnnormalisedScore(neighbour, newick, nodeBeingMovedNr, nodeBeingMoveToNr);
+		neighbourScores.add(score);
+		
+	
 		
 		
 	}
@@ -140,14 +186,37 @@ public class TreeGuider extends BEASTObject {
 		
 		double scoreSum = 0;
 		for (int i = 0; i < neighbours.size(); i ++) {
-			scoreSum += neighbourScores.get(i);
+			
+			// Check if the neighbour is within the subset of the neighbourhood that we are considering for the proposal
+			boolean goodNeighbour = false;
+			for (int j = 0; j < neighbourhoodToConsider.size(); j ++) {
+				if (i == neighbourhoodToConsider.get(j)) {
+					goodNeighbour = true;
+					break;
+				}
+			}
+			
+			if (goodNeighbour) scoreSum += neighbourScores.get(i);
+			
 		}
 
 		
 		// Convert scores into a cumulative probability array
 		double cumSum = 0;
 		for (int i = 0; i < neighbours.size(); i ++) {
-			if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
+			
+			// Check if the neighbour is within the subset of the neighbourhood that we are considering for the proposal
+			boolean goodNeighbour = false;
+			for (int j = 0; j < neighbourhoodToConsider.size(); j ++) {
+				if (i == neighbourhoodToConsider.get(j)) {
+					goodNeighbour = true;
+					break;
+				}
+			}
+			
+			
+			if (!goodNeighbour) probabilities[i] = 0;
+			else if (scoreSum <= 0) probabilities[i] = 1.0 / neighbours.size();
 			else {
 				cumSum += neighbourScores.get(i) / scoreSum;
 				probabilities[i] = cumSum;
@@ -168,6 +237,8 @@ public class TreeGuider extends BEASTObject {
 		if (neighbours.size() == 0) return Double.NEGATIVE_INFINITY;
 		
 		
+		
+		// Probability of sampling neighbour given that it is in the 'good neighbourhood'
 		double proposalDensity = 0;
 		int numMatches = 0;
 		for (int i = 0; i < neighbours.size(); i ++) {
@@ -183,6 +254,10 @@ public class TreeGuider extends BEASTObject {
 			
 		}
 		
+		
+		// Probability of the tree being in the good neighbourhood
+		
+		
 		if (numMatches == 0) return Double.NEGATIVE_INFINITY;
 		return proposalDensity;
 	}
@@ -194,7 +269,8 @@ public class TreeGuider extends BEASTObject {
 	public double getCacheSize() {
 		return scoreCache.size();
 	}
-	
+
+
 
 	
 	/**

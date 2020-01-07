@@ -33,8 +33,8 @@ public class ConvergableMCMC extends MCMC {
 	public final Input<List<Logger>> treeStorersInput = new Input<>("treeStorer", "dummy input", new ArrayList<Logger>());
 	public final Input<Integer> burnInPercentageInput = new Input<Integer>("convergenceBurnin", "dummy input");
 	public final Input<Logger> rHatLoggerInput = new Input<>("rhatLogger", "dummy input", Input.Validate.OPTIONAL);
+	public final Input<Double> minESSInput = new Input<>("ESS", "dummy input", 200.0);
 	public final Input<Double> maxRHatInput = new Input<>("rhat", "dummy input", 1.05);
-	
 	
 	
 	

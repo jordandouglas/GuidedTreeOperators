@@ -94,6 +94,9 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		GuidedTreeOperator guidedOperator = (GuidedTreeOperator)lastOperator;
 		
 
+		// Sample which trees in the neighbourhood to consider proposing
+		guidedOperator.sampleNeighbourhood(treeGuider);
+		
 		
 		// Get the neighbours of the current tree and compute their scores
 		guidedOperator.getNeighbouringTrees(treeGuider, -1);
@@ -112,20 +115,29 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
 		//String originalNewick = getTreeSerial(tree);
 		
 		// Make the proposal and get its Jacobian determinant
+    	
+    	//String newick1 = tree.toString();
+    	
 		double logJD = guidedOperator.proposal(proposedTreeNum);
 		if (logJD == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
+		
 		
 		
 		// Forward proposal density
 		String proposedNewick = treeGuider.getNeighbours().get(proposedTreeNum);
 		double proposalForward = treeGuider.getProposalDensity(proposedNewick, probabilitiesForward);
 		
-        
-        						
 		
+		//String newick2 = tree.toString();
+		
+		
+		//System.out.println("++++++++++++");
+		//System.out.println(newick1);
+		//System.out.println(newick2);
+		//System.out.println("++++++++++++");
         
         // Get the neighbours of the proposed tree and compute their scores
-		guidedOperator.getNeighbouringTrees(treeGuider, -1);
+ 		guidedOperator.getNeighbouringTrees(treeGuider, -1);
  		
  		
  		// Get proposal probabilities out of the proposed state
@@ -139,6 +151,8 @@ public class MetaGuidedTreeOperator extends TreeOperator  {
         	
 		// Return Hastings ratio
         double logHR = proposalBackward - proposalForward;
+        
+        
         //System.out.println(Math.exp(proposalBackward) + " / " + Math.exp(proposalForward) + " = " + logHR + "\n\n");
 		return logHR + logJD;
 		

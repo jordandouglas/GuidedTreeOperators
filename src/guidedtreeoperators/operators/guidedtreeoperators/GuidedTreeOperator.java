@@ -27,22 +27,25 @@ public class GuidedTreeOperator extends TreeOperator {
 	
 	
 	
-	
-	// A TreeGuider is required for computing tree scores
-	// If 'treeIndex' is -1, returns a list of trees which may be reached from the current tree
-	// If 'treeIndex' is >= 0, makes a proposal to move to the specified tree number
-	public void getNeighbouringTrees(TreeGuider treeGuider, int treeIndex){
-		
+	/*
+		Generates neighbours
+			- If treeGuider is null and treeIndices >= 0, the specified tree will be proposed
+			- If treeGuider is null and treeIndices < 0, nothing will change
+			- If treeGuider is not null, all neighbours are generated added to the treeGuider 
+		Returns the number of neighbours generated
+	*/
+	public int getNeighbouringTrees(TreeGuider treeGuider, int treeIndex){
+		return 0;
 	}
 	
 	
-	
-	
-	// Set the tree to move to
-	public void setProposal(Tree proposedTree) {
-		
+	// Counts the number of neighbours
+	public int sampleNeighbourhood(TreeGuider treeGuider){
+		int numberOfNeighbours = getNeighbouringTrees(null, -1);
+		if (treeGuider != null) treeGuider.sampleNeighbourhood(numberOfNeighbours);
+		return numberOfNeighbours;
 	}
-	
+
 	
 	public void setTree(Tree metaTree) {
 		this.tree = metaTree;
